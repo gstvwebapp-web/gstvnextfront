@@ -1,0 +1,334 @@
+/**
+ * City Selection Modal Styles - Matching Category Modal Design
+ */
+
+/* Modal Backdrop */
+#myCityModal {
+  background-color: rgba(0,0,0,0.6) !important;
+}
+
+/* Modal Dialog */
+#myCityModal .modal-dialog {
+  max-width: 900px;
+  margin: 20px auto;
+}
+
+/* Modal Content */
+#myCityModal .modal-content {
+  background-color: white;
+  border-radius: 15px;
+  border: none;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+
+/* Modal Header - Orange/Golden Theme */
+#myCityModal .modal-header {
+  background-color: #d4a574;
+  border-radius: 15px 15px 0 0;
+  padding: 20px 30px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#myCityModal .modal-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: white;
+  font-family: 'Noto Sans Gujarati', sans-serif;
+}
+
+/* Search Box in Header - Exact Match with Category Modal */
+#myCityModal .modal-header input {
+  width: 100%;
+  padding: 12px 45px 12px 20px;
+  border-radius: 25px;
+  border: none;
+  font-size: 16px;
+  outline: none;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+#myCityModal .btnSearch {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+#myCityModal .btnSearch svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Close Button - Exact Match with Category Modal */
+#myCityModal .btn-close {
+  background: white;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Modal Body */
+#myCityModal .modal-body {
+  padding: 30px;
+  background-color: #f8f9fa;
+  min-height: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* City List - Horizontal Scrollable */
+#myCityModal .cityList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* City Button Styles - Matching Category Modal */
+#myCityModal .cityBtn {
+  margin-bottom: 0px;
+  flex: 0 1 auto;
+}
+
+#myCityModal .cityBtn label {
+  margin: 0;
+  cursor: pointer;
+  display: block;
+}
+
+#myCityModal .cityBtn input[type="checkbox"] {
+  display: none;
+}
+
+#myCityModal .cityBtn label span {
+  display: block;
+  padding: 12px 20px;
+  background-color: #fff;
+  border: 2px solid #d4a574;
+  border-radius: 25px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+  transition: all 0.3s ease;
+  font-family: 'Hind Vadodara', sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* Hover Effects */
+#myCityModal .cityBtn label span:hover {
+  background-color: #8B0000;
+  color: white;
+}
+
+/* Selected State */
+#myCityModal .cityBtn input[type="checkbox"]:checked + span {
+  background-color: #8B0000 !important;
+  color: white !important;
+  border-color: #8B0000 !important;
+}
+
+/* Modal Footer - Red Theme */
+#myCityModal .modal-footer {
+  padding: 25px 30px;
+  background-color: #8B0000;
+  border-radius: 0 0 15px 15px;
+  border: none;
+  text-align: center;
+}
+
+/* Submit Button - Exact Match with Category Modal */
+#myCityModal .btnSubmitCity {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+  padding: 12px 50px;
+  border-radius: 25px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Hind Vadodara', sans-serif;
+  min-width: 150px;
+  margin: 0 auto;
+  width: auto;
+}
+
+#myCityModal .btnSubmitCity:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+/* Loading State */
+#myCityModal .loading-cities {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-family: 'Noto Sans Gujarati', sans-serif;
+}
+
+/* No Results Message */
+#myCityModal .no-results {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-size: 18px;
+  font-family: 'Noto Sans Gujarati', sans-serif;
+}
+
+/* Error Message */
+#myCityModal .error-message {
+  text-align: center;
+  padding: 40px;
+  color: #dc3545;
+  font-size: 16px;
+  font-family: 'Noto Sans Gujarati', sans-serif;
+}
+
+/* Responsive Design */
+/* Large screens - maintain flex layout with wrapping */
+@media (min-width: 1200px) {
+  #myCityModal .cityList {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}
+
+/* Medium screens - flex layout */
+@media (min-width: 769px) and (max-width: 1199px) {
+  #myCityModal .cityList {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  #myCityModal .modal-dialog {
+    margin: 10px;
+    max-width: none;
+  }
+
+  #myCityModal .modal-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0px;
+    padding: 20px;
+  }
+
+  #myCityModal .modal-body {
+    padding: 20px;
+    max-height: 350px;
+  }
+
+  #myCityModal .modal-footer {
+    padding: 20px;
+  }
+
+  #myCityModal .cityList {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  #myCityModal .cityBtn label span {
+    padding: 10px 15px;
+    font-size: 13px;
+    flex: 0 1 calc(33.333% - 7px);
+    min-width: 90px;
+  }
+
+  #myCityModal .modal-title {
+    font-size: 20px;
+  }
+
+  #myCityModal .btnSubmitCity {
+    padding: 10px 40px;
+    font-size: 16px;
+    min-width: 130px;
+  }
+
+  #myCityModal .btn-close {
+    width: 32px;
+    height: 32px;
+  }
+
+  #myCityModal .btn-close svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  #myCityModal .modal-dialog {
+    margin: 5px;
+  }
+
+  #myCityModal .modal-header,
+  #myCityModal .modal-body,
+  #myCityModal .modal-footer {
+    padding: 15px;
+  }
+
+  #myCityModal .modal-title {
+    font-size: 18px;
+  }
+
+  #myCityModal .cityList {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  #myCityModal .cityBtn label span {
+    padding: 8px 12px;
+    font-size: 12px;
+    flex: 0 1 calc(50% - 4px);
+    min-width: 70px;
+  }
+
+  #myCityModal .btnSubmitCity {
+    padding: 10px 30px;
+    font-size: 16px;
+    min-width: 120px;
+  }
+
+  #myCityModal .btn-close {
+    width: 30px;
+    height: 30px;
+  }
+
+  #myCityModal .btn-close svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  #myCityModal .modal-header input {
+    padding: 10px 35px 10px 15px;
+    font-size: 14px;
+  }
+
+  #myCityModal .btnSearch svg {
+    width: 16px;
+    height: 16px;
+  }
+}

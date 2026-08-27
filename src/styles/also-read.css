@@ -1,0 +1,192 @@
+/* આ પણ વાંચો (Also Read) Section Styles - GSTV Style */
+
+.also-read-section {
+  margin: 30px 0;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.also-read-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #ff6b35;
+  padding-bottom: 8px;
+  display: inline-block;
+  font-family: 'Noto Sans Gujarati', sans-serif;
+}
+
+.also-read-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.also-read-item {
+  display: flex;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.also-read-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.also-read-link {
+  display: flex;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+}
+
+.also-read-image {
+  width: 120px;
+  height: 80px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.also-read-content {
+  padding: 12px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.also-read-text {
+  font-size: 14px;
+  line-height: 1.4;
+  color: #333;
+  font-weight: 500;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-family: 'Noto Sans Gujarati', sans-serif;
+}
+
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+  .also-read-section {
+    margin: 20px 0;
+    padding: 15px;
+  }
+  
+  .also-read-title {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+  
+  .also-read-items {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .also-read-image {
+    width: 100px;
+    height: 70px;
+  }
+  
+  .also-read-content {
+    padding: 10px;
+  }
+  
+  .also-read-text {
+    font-size: 13px;
+    -webkit-line-clamp: 2;
+  }
+}
+
+/* Tablet Design */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .also-read-items {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+/* Large Screen Design */
+@media (min-width: 1200px) {
+  .also-read-items {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .also-read-section {
+    background-color: #2d3748;
+    border-color: #4a5568;
+  }
+  
+  .also-read-item {
+    background-color: #1a202c;
+  }
+  
+  .also-read-title {
+    color: #e2e8f0;
+  }
+  
+  .also-read-text {
+    color: #e2e8f0;
+  }
+}
+
+/* Loading Animation */
+.also-read-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  color: #666;
+}
+
+.also-read-loading::after {
+  content: '';
+  width: 20px;
+  height: 20px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #ff6b35;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-left: 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Smooth Scroll Behavior */
+.also-read-section {
+  scroll-margin-top: 80px;
+}
+
+/* Focus States for Accessibility */
+.also-read-link:focus {
+  outline: 2px solid #ff6b35;
+  outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+  .also-read-section {
+    break-inside: avoid;
+    background: white !important;
+    border: 1px solid #ccc !important;
+  }
+  
+  .also-read-item:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}

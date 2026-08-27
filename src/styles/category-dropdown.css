@@ -1,0 +1,386 @@
+/* Category Header with Official Select2 Dropdown */
+
+
+
+.category-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.category-title-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+}
+
+/* Right side dropdown container */
+.category-dropdown-right {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.category-main-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+  color: white;
+  font-family: "Hind Vadodara", sans-serif;
+}
+
+/* Custom Select2 Styling with Original Colors */
+.category-header-with-dropdown .select2-container.category-select2-custom {
+  box-sizing: border-box;
+  display: inline-block;
+  margin: 0;
+  position: relative;
+  vertical-align: middle;
+  min-width: 200px;
+  width: auto !important;
+}
+
+.category-header-with-dropdown .category-select2-custom .select2-selection--single {
+  box-sizing: border-box;
+  cursor: pointer;
+  display: block;
+  height: 32px;
+  user-select: none;
+  -webkit-user-select: none;
+  background-color: #f2e0cf;
+  border: 1px solid #f1c2c2;
+  border-radius: 16px;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.category-header-with-dropdown .category-select2-custom .select2-selection--single:hover {
+  border-color: #e0c4a8;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.category-header-with-dropdown .category-select2-custom .select2-selection__rendered {
+  display: block;
+  padding-left: 16px;
+  padding-right: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #000;
+  line-height: 32px;
+  font-family: "Hind Vadodara", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.category-header-with-dropdown .category-select2-custom .select2-selection__arrow {
+  height: 30px;
+  position: absolute;
+  top: 1px;
+  right: 9px;
+  width: 20px;
+}
+
+.category-header-with-dropdown .category-select2-custom .select2-selection__arrow b {
+  border-color: #000 transparent transparent transparent;
+  border-style: solid;
+  border-width: 5px 4px 0 4px;
+  height: 0;
+  left: 50%;
+  margin-left: -4px;
+  margin-top: -2px;
+  position: absolute;
+  top: 50%;
+  width: 0;
+}
+
+.category-header-with-dropdown .category-select2-custom.select2-container--open .select2-selection__arrow b {
+  border-color: transparent transparent #000 transparent;
+  border-width: 0 4px 5px 4px;
+}
+
+.category-header-with-dropdown .category-select2-custom .select2-dropdown {
+  background-color: white;
+  border: 1px solid #f1c2c2;
+  border-radius: 0 0 16px 16px;
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  z-index: 1051;
+  top: 100%;
+  margin-top: -2px;
+  box-shadow: 0px 4px 8px rgba(149, 124, 124, 0.3);
+  overflow: hidden;
+  animation: dropdownSlideDown 0.2s ease-out;
+}
+
+/* Search Input Styling */
+.category-header-with-dropdown .category-select2-custom .select2-search--dropdown {
+  display: block;
+  padding: 8px;
+  border-bottom: 1px solid #f1c2c2;
+  background: #fafafa;
+}
+
+.category-header-with-dropdown .category-select2-custom .select2-search__field {
+  padding: 8px 12px;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #f1c2c2;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: "Hind Vadodara", sans-serif;
+  outline: none;
+  background: white;
+}
+
+.category-header-with-dropdown .category-select2-custom .select2-search__field:focus {
+  border-color: #850E00;
+  box-shadow: 0 0 0 2px rgba(133, 14, 0, 0.2);
+}
+
+.category-header-with-dropdown .category-select2-custom .select2-results {
+  display: block;
+}
+
+.category-header-with-dropdown .category-select2-custom .select2-results__options {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.category-header-with-dropdown .category-select2-custom .select2-results__option {
+  padding: 7px 10px;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+  font-family: "Hind Vadodara", sans-serif;
+  font-size: 16px;
+  color: #000;
+  border-bottom: 1px solid #f5f5f5;
+  transition: background-color 0.2s ease;
+}
+
+.category-header-with-dropdown .category-select2-custom .select2-results__option:last-child {
+  border-bottom: none;
+}
+
+.category-header-with-dropdown .category-select2-custom .select2-results__option--selected {
+  background-color: #850E00;
+  color: white;
+}
+
+.category-header-with-dropdown .category-select2-custom .select2-results__option--highlighted.select2-results__option--selectable,
+.category-header-with-dropdown .category-select2-custom .select2-results__option:hover {
+  background-color: #f2dfce !important;
+  color: #000 !important;
+}
+
+.category-header-with-dropdown .category-select2-custom .select2-results__option--selected:hover {
+  background-color: #6a0b00;
+  color: white;
+}
+
+.category-header-with-dropdown .category-select2-custom .select2-results__option--disabled {
+  color: #999;
+  cursor: default;
+  background-color: #f8f8f8;
+}
+
+/* Loading State */
+.category-header-with-dropdown .select2-loading {
+  padding: 12px;
+  text-align: center;
+  color: #666;
+  font-family: "Hind Vadodara", sans-serif;
+  font-size: 14px;
+}
+
+/* Animation for dropdown */
+@keyframes dropdownSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom Scrollbar for dropdown */
+.category-header-with-dropdown .category-select2-custom .select2-results__options::-webkit-scrollbar {
+  width: 6px;
+}
+
+.category-header-with-dropdown .category-select2-custom .select2-results__options::-webkit-scrollbar-track {
+  background: #f8f8f8;
+  border-radius: 3px;
+}
+
+.category-header-with-dropdown .category-select2-custom .select2-results__options::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.category-header-with-dropdown .category-select2-custom .select2-results__options::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Focus states for accessibility */
+.category-header-with-dropdown .category-select2-custom .select2-selection--single:focus {
+  outline: none;
+  border-color: #850E00;
+  box-shadow: 0 0 0 2px rgba(133, 14, 0, 0.2);
+}
+
+.category-header-with-dropdown .category-select2-custom .select2-results__option:focus {
+  outline: none;
+  background-color: #f2dfce;
+  color: #000;
+}
+
+/* View All Button */
+.category-view-all {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  font-family: "Hind Vadodara", sans-serif;
+}
+
+.category-view-all:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  text-decoration: none;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .category-header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .category-title-section {
+    width: 100%;
+  }
+
+  .category-dropdown-right {
+    width: auto;
+    margin-left: 0;
+    text-align: left;
+  }
+
+  .category-header-with-dropdown .category-select2-custom {
+    width: 100% !important;
+    min-width: auto;
+  }
+
+  .category-main-title {
+    font-size: 20px;
+  }
+
+  .category-header-with-dropdown .category-select2-custom .select2-selection__rendered {
+    font-size: 14px;
+  }
+
+  .category-header-with-dropdown .category-select2-custom .select2-results__option {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .category-header-with-dropdown .category-select2-custom .select2-search__field {
+    font-size: 14px;
+    padding: 6px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-header-with-dropdown {
+    padding: 5px;
+    margin-bottom: 0px;
+  }
+
+  .category-main-title {
+    font-size: 18px;
+  }
+
+  .category-header-with-dropdown .category-select2-custom .select2-selection--single {
+    height: 36px;
+  }
+
+  .category-header-with-dropdown .category-select2-custom .select2-selection__rendered {
+    line-height: 36px;
+    font-size: 14px;
+    padding-left: 12px;
+    padding-right: 18px;
+  }
+
+  .category-header-with-dropdown .category-select2-custom .select2-selection__arrow {
+    width: 18px;
+    right: 6px;
+  }
+
+  .category-header-with-dropdown .category-select2-custom .select2-results__option {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .category-header-with-dropdown .category-select2-custom .select2-search__field {
+    font-size: 13px;
+    padding: 6px 8px;
+  }
+
+  .category-header-with-dropdown .select2-loading {
+    padding: 10px;
+    font-size: 13px;
+  }
+}
+
+/* Animation for dropdown */
+@keyframes dropdownSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.category-dropdown-menu {
+  animation: dropdownSlideDown 0.2s ease-out;
+}
+
+/* Focus states for accessibility */
+.category-dropdown-trigger:focus {
+  outline: none;
+  border-color: #850E00;
+  box-shadow: 0 0 0 2px rgba(133, 14, 0, 0.2);
+}
+
+.dropdown-item:focus {
+  outline: none;
+  background-color: #f0f0f0;
+}
+
+.dropdown-item.selected:focus {
+  background-color: #6a0b00;
+}

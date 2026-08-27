@@ -1,0 +1,249 @@
+/* Live News Styles */
+.blogs-main-section {
+  padding: 30px 0;
+  background-color: #fff;
+}
+
+.liveNewsHblock {
+  margin: 0;
+}
+
+.liveNewsHblock .column {
+  padding: 15px;
+}
+
+.hover-image {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.hover-image:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.lazyload-wrapper {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.gridimg.custom-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.hover-image:hover .gridimg.custom-image {
+  transform: scale(1.05);
+}
+
+.liveNewsHblock h4 {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 20px;
+  color: #333;
+  font-family: 'Hind Vadodara', sans-serif;
+}
+
+.liveNewsHblock h4 span {
+  background: linear-gradient(135deg, #dc3545, #c82333);
+  color: white;
+  padding: 6px 15px;
+  border-radius: 25px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-right: 12px;
+  display: inline-block;
+  position: relative;
+  animation: livePulse 2s infinite;
+  box-shadow: 0 2px 10px rgba(220, 53, 69, 0.3);
+}
+
+.liveNewsHblock h4 span::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 8px;
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  animation: blink 1s infinite;
+}
+
+@keyframes livePulse {
+  0% {
+    box-shadow: 0 2px 10px rgba(220, 53, 69, 0.3);
+  }
+  50% {
+    box-shadow: 0 2px 20px rgba(220, 53, 69, 0.6);
+  }
+  100% {
+    box-shadow: 0 2px 10px rgba(220, 53, 69, 0.3);
+  }
+}
+
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0.3;
+  }
+}
+
+.liveNewsHblock h4 a {
+  color: #333;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.liveNewsHblock h4 a:hover {
+  color: #dc3545;
+}
+
+.liveNewsAddSectionhome {
+  margin: 0;
+}
+
+.liveNewsAddSectionhome .colLeft {
+  padding: 12px 15px;
+  border-left: 4px solid #dc3545;
+  margin-bottom: 12px;
+  background: linear-gradient(90deg, rgba(220, 53, 69, 0.05), rgba(220, 53, 69, 0.02));
+  border-radius: 0 8px 8px 0;
+  align-items: flex-start;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+
+.liveNewsAddSectionhome .colLeft:hover {
+  background: linear-gradient(90deg, rgba(220, 53, 69, 0.08), rgba(220, 53, 69, 0.04));
+  border-left-width: 5px;
+}
+
+.liveNewsAddSectionhome .colLeft h6 {
+  font-size: 11px;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+  min-width: 65px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #dc3545, #c82333);
+  padding: 4px 10px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(220, 53, 69, 0.3);
+}
+
+.liveNewsAddSectionhome .colLeft h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #444;
+  margin: 0;
+  line-height: 1.4;
+  flex: 1;
+  font-family: 'Hind Vadodara', sans-serif;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+  .blogs-main-section {
+    padding: 20px 0;
+  }
+  
+  .liveNewsHblock .column {
+    padding: 10px;
+  }
+  
+  .liveNewsHblock .col-lg-4 {
+    margin-bottom: 20px;
+  }
+  
+  .lazyload-wrapper {
+    height: 200px;
+  }
+  
+  .liveNewsHblock h4 {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 767px) {
+  .blogs-main-section {
+    padding: 15px 0;
+  }
+  .blogs-main-section.livetvmobcls{
+    margin-bottom: 0px;
+  }
+  
+  .liveNewsHblock .column {
+    padding: 8px;
+  }
+  
+  .lazyload-wrapper {
+    height: 180px;
+  }
+  
+  .liveNewsHblock h4 {
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+  
+  .liveNewsHblock h4 span {
+    font-size: 10px;
+    padding: 4px 10px;
+    margin-right: 8px;
+  }
+  
+  .liveNewsAddSectionhome .colLeft {
+    padding: 10px 12px;
+    margin-bottom: 10px;
+  }
+  
+  .liveNewsAddSectionhome .colLeft h6 {
+    font-size: 10px;
+    min-width: 55px;
+    padding: 3px 8px;
+  }
+  
+  .liveNewsAddSectionhome .colLeft h4 {
+    font-size: 14px;
+  }
+}
+
+/* Loading and Error States */
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+.alert {
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #dc3545, #c82333);
+  border: none;
+  border-radius: 25px;
+  padding: 10px 25px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+}

@@ -1,0 +1,1778 @@
+'use client';
+
+import { useState, useEffect, useRef } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import Head from 'next/head';
+import { commonApiPost, COMMON_API_BASE_URL } from '@/constants/api';
+import { getOrCreateDeviceId } from '@/utils/deviceId';
+import VideoActionButtons from '@/components/VideoActionButtons';
+
+interface Video {
+  id: number;
+  title: string;
+  englishTitle: string;
+  slug: string;
+  videoURL: string;
+  description: string;
+  img_credit_txt?: string;
+  created_at: string;
+  tags: string;
+  metatitle: string;
+  metadesc: string;
+  like_count?: number;
+  liked_by_user?: number;
+  bookmark?: number;
+  // Additional fields that might be in your API response
+  userID?: number;
+  assignUserID?: number;
+  catID1?: any;
+  featureImage?: string;
+  imageURL?: string;
+  uploadVideo?: string;
+  scheduleDate?: string;
+  is_home?: string;
+  related_news?: string;
+  relatednewsid?: string;
+  viewer?: number;
+  viewer_app?: number;
+  newsOrder?: number;
+  catOrder?: number;
+  topnewsOrder?: number;
+  inshorts?: number;
+  notification?: number;
+  usernews_userID?: any;
+  is_live_news?: number;
+  is_breaking?: number;
+  is_vertical_video?: number;
+  hide_title?: number;
+  status?: string;
+  updated_at?: string;
+  catID?: string;
+  category_slugs?: string;
+  [key: string]: any; // Allow any additional fields
+}
+
+interface ApiResponse {
+  status?: string;
+  message?: string;
+  slug?: string;
+  catSlug?: string;
+  videoslug?: string;
+  videos?: {
+    current_page?: number;
+    data?: Video[];
+    last_page?: number;
+    next_page_url?: string | null;
+    total?: number;
+    per_page?: number;
+    from?: number;
+    to?: number;
+    first_page_url?: string;
+    last_page_url?: string;
+    path?: string;
+    prev_page_url?: string | null;
+    links?: Array<{
+      url?: string | null;
+      label?: string;
+      active?: boolean;
+    }>;
+  }; // Your exact staging API structure
+  data?: {
+    current_page?: number;
+    data?: Video[];
+    last_page?: number;
+    next_page_url?: string | null;
+    total?: number;
+    per_page?: number;
+    from?: number;
+    to?: number;
+  } | Video[]; // Can be nested object or direct array
+  topvideos?: Video[]; // Local API fallback structure
+  [key: string]: any; // Allow any other keys
+}
+
+export default function VideoDetailPage() {
+  const params = useParams();
+  const router = useRouter();
+  const slug = params?.slug as string;
+
+  const [videos, setVideos] = useState<Video[]>([]);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [bookmarkingVideoId, setBookmarkingVideoId] = useState<number | null>(null);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Touch/swipe handling
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [showAutoAdvanceIndicator, setShowAutoAdvanceIndicator] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(1024); // Default to desktop to avoid hydration mismatch
+  const [isMounted, setIsMounted] = useState(false); // Track if component is mounted on client
+
+  // Fetch videos from staging API (matching your Laravel implementation)
+  const fetchVideos = async (page: number = 1, append: boolean = false) => {
+    try {
+      console.log(`📹 Fetching videos - Page: ${page}, Append: ${append}`);
+
+      if (!append) setLoading(true);
+      if (append) setIsLoadingMore(true);
+
+      // Get user ID from userSession for bookmark status
+      let userId = '';
+      const userSession = localStorage.getItem('userSession');
+      if (userSession) {
+        try {
+          const session = JSON.parse(userSession);
+          userId = session.userData?.user_id || session.userData?.id;
+          if (!userId) {
+            userId = session.user_id || session.id || session.userData?.id;
+          }
+        } catch (err) {
+          console.error('Error parsing userSession in fetchVideos:', err);
+        }
+      }
+
+      // Resolve device ID (prefer public IP; fallback to persistent device ID)
+      let deviceId = '';
+      try {
+        const cachedIp = typeof window !== 'undefined' ? localStorage.getItem('public_ip') : null;
+        if (cachedIp) {
+          deviceId = cachedIp;
+        } else if (typeof window !== 'undefined') {
+          const ipRes = await fetch('https://api.ipify.org?format=json');
+          if (ipRes.ok) {
+            const ipData = await ipRes.json();
+            if (ipData?.ip) {
+              deviceId = ipData.ip;
+              try { localStorage.setItem('public_ip', deviceId); } catch {}
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Failed to resolve public IP for device_id:', e);
+      }
+      if (!deviceId) {
+        try {
+          const { getOrCreateDeviceId } = await import('@/utils/deviceId');
+          deviceId = getOrCreateDeviceId();
+        } catch {}
+      }
+
+      // Use common API utility
+      const response = await commonApiPost('videoDetail', {
+        slug: 'videos',
+        subslug: slug,
+        pageNumber: page,
+        device_id: deviceId,
+        user_id: userId || ''
+      }, false);
+
+      if (!response.ok) {
+        throw new Error(`API returned ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log(`📹 API Response:`, data);
+      console.log(`📹 Available keys:`, Object.keys(data || {}));
+
+      // Handle different possible response structures
+      let videosData = [];
+      let currentPageNum = page;
+      let totalPagesNum = 1;
+
+      // Parse the exact API response structure you provided
+      if (data && data.videos && Array.isArray(data.videos.data) && data.videos.data.length > 0) {
+        // YOUR STAGING API STRUCTURE: { videos: { data: [...], current_page: 1, last_page: 869 } }
+        videosData = data.videos.data;
+        currentPageNum = data.videos.current_page || page;
+        totalPagesNum = data.videos.last_page || 1;
+        console.log(`📹 ✅ Using STAGING API videos.data - found ${videosData.length} videos`);
+        console.log(`📹 Pagination: Page ${currentPageNum} of ${totalPagesNum}`);
+        console.log(`📹 First video:`, videosData[0]?.title || 'No title');
+      } else if (data && Array.isArray(data.videos) && data.videos.length > 0) {
+        // Direct videos array: { videos: [...] }
+        videosData = data.videos;
+        console.log(`📹 Using direct VIDEOS array - found ${videosData.length} videos`);
+      } else if (data && data.data && Array.isArray(data.data) && data.data.length > 0) {
+        // Direct data array: { data: [...] }
+        videosData = data.data;
+        console.log(`📹 Using DATA array - found ${videosData.length} videos`);
+      } else if (data && data.status === 'success' && data.data && Array.isArray(data.data.data) && data.data.data.length > 0) {
+        // Nested structure: { status: 'success', data: { data: [...] } }
+        videosData = data.data.data;
+        currentPageNum = data.data.current_page || page;
+        totalPagesNum = data.data.last_page || 1;
+        console.log(`📹 Using nested DATA structure - found ${videosData.length} videos`);
+      } else if (Array.isArray(data.topvideos) && data.topvideos.length > 0) {
+        // Top videos: { topvideos: [...] } - LOCAL API FALLBACK
+        videosData = data.topvideos;
+        console.log(`📹 Using TOPVIDEOS array (local API) - found ${videosData.length} videos`);
+      } else if (Array.isArray(data) && data.length > 0) {
+        // Direct array response: [...]
+        videosData = data;
+        console.log(`📹 Using direct array response - found ${videosData.length} videos`);
+      } else {
+        console.error(`📹 ❌ NO VIDEOS FOUND in any expected structure`);
+        console.error(`📹 Response data:`, data);
+        console.error(`📹 Available keys:`, Object.keys(data || {}));
+        console.error(`📹 Videos structure:`, data?.videos);
+
+        setError(`No videos found. Available keys: ${Object.keys(data || {}).join(', ')}`);
+        return;
+      }
+
+      if (videosData.length > 0) {
+        // Debug: Show structure of first video
+        
+
+        if (append) {
+          
+          setVideos(prevVideos => [...prevVideos, ...videosData]);
+        } else {
+         
+          setVideos(videosData);
+          // Find current video index
+          const index = videosData.findIndex((video: Video) => video.slug === slug);
+          if (index !== -1) {
+            setCurrentVideoIndex(index);
+           
+          } else {
+            
+            setCurrentVideoIndex(0);
+          }
+        }
+
+        setCurrentPage(currentPageNum);
+        setTotalPages(totalPagesNum);
+        setError(null);
+      } else {
+        
+        setError('No videos found in API response');
+      }
+    } catch (stagingErr) {
+      
+
+      try {
+        // Fallback to local API
+        const localResponse = await fetch(`/api/topVideos?page=${page}`);
+        if (!localResponse.ok) {
+          throw new Error(`Local API returned ${localResponse.status}`);
+        }
+
+        const localData = await localResponse.json();
+      
+
+        let videosData = [];
+        let currentPageNum = page;
+        let totalPagesNum = 1;
+
+        // Handle local API response structure
+        if (localData && localData.status === 'success' && localData.data && Array.isArray(localData.data.data)) {
+          videosData = localData.data.data;
+          currentPageNum = localData.data.current_page || page;
+          totalPagesNum = localData.data.last_page || 1;
+         
+        } else if (Array.isArray(localData.topvideos)) {
+          videosData = localData.topvideos;
+         
+        } else if (Array.isArray(localData)) {
+          videosData = localData;
+          
+        }
+
+        if (videosData.length > 0) {
+          if (append) {
+          
+            setVideos(prevVideos => [...prevVideos, ...videosData]);
+          } else {
+           
+            setVideos(videosData);
+            // Find current video index
+            const index = videosData.findIndex((video: Video) => video.slug === slug);
+            if (index !== -1) {
+              setCurrentVideoIndex(index);
+             
+            } else {
+              
+              setCurrentVideoIndex(0);
+            }
+          }
+
+          setCurrentPage(currentPageNum);
+          setTotalPages(totalPagesNum);
+          setError(null);
+        } else {
+         
+          setError('No videos found in any API response');
+        }
+      } catch (localErr) {
+      
+        setError('Failed to load videos from all sources');
+      }
+    } finally {
+      setLoading(false);
+      setIsLoadingMore(false);
+    }
+  };
+
+  // Load videos on mount
+  useEffect(() => {
+    fetchVideos(1, false);
+  }, [slug]);
+
+  useEffect(() => {
+  if (!containerRef.current) return;
+
+  let scrollTimeout: NodeJS.Timeout | null = null;
+
+  const handleScroll = () => {
+    if (scrollTimeout) clearTimeout(scrollTimeout);
+
+    // Wait for scroll to finish
+    scrollTimeout = setTimeout(() => {
+      const scrollPosition = containerRef.current!.scrollTop;
+      const windowHeight = window.innerHeight;
+
+      // Find which video is centered
+      const index = Math.round(scrollPosition / windowHeight);
+
+      if (index !== currentVideoIndex && index >= 0 && index < videos.length) {
+       
+        setCurrentVideoIndex(index);
+
+        // Smooth scroll to snap perfectly
+        const el = document.querySelector(`[data-index="${index}"]`);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+
+        // Update URL + SEO
+        const v = videos[index];
+        if (v) {
+          window.history.replaceState({ videoIndex: index }, "", `/videos/${v.slug}`);
+          document.title = v.title;
+        }
+      }
+    }, 150);
+  };
+
+  const ref = containerRef.current;
+  ref.addEventListener("scroll", handleScroll);
+
+  return () => ref.removeEventListener("scroll", handleScroll);
+}, [currentVideoIndex, videos]);
+
+  // Update SEO meta tags when current video changes
+  useEffect(() => {
+    if (videos.length > 0 && videos[currentVideoIndex]) {
+      updateSEOMetaTags(videos[currentVideoIndex]);
+    }
+  }, [currentVideoIndex, videos]);
+
+  // Auto-pagination when watching the last video
+  useEffect(() => {
+    if (videos.length === 0) return;
+
+    // Trigger when watching the last video (not second-to-last)
+    const isLastVideo = currentVideoIndex === videos.length - 1;
+
+    if (isLastVideo && currentPage < totalPages && !isLoadingMore) {
+      
+      fetchVideos(currentPage + 1, true);
+    }
+  }, [currentVideoIndex, currentPage, totalPages, isLoadingMore, videos.length]);
+
+  // Intersection Observer for last video pagination
+  useEffect(() => {
+    if (videos.length === 0) return;
+
+    const lastVideoElement = document.getElementById(`video-${videos.length - 1}`);
+    if (!lastVideoElement) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && currentPage < totalPages && !isLoadingMore) {
+        
+            fetchVideos(currentPage + 1, true);
+          }
+        });
+      },
+      {
+        threshold: 0.5, // Trigger when 50% of the last video is visible
+        rootMargin: '0px 0px 100px 0px' // Trigger 100px before the video is fully visible
+      }
+    );
+
+    observer.observe(lastVideoElement);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [videos.length, currentPage, totalPages, isLoadingMore]);
+
+  // Update SEO meta tags dynamically
+  const updateSEOMetaTags = (video: Video) => {
+    // Update document title
+    document.title = video.title;
+
+    // Update meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', video.metadesc || video.description);
+    } else {
+      const newMetaDescription = document.createElement('meta');
+      newMetaDescription.name = 'description';
+      newMetaDescription.content = video.metadesc || video.description;
+      document.head.appendChild(newMetaDescription);
+    }
+
+    // Update Open Graph tags
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) {
+      ogTitle.setAttribute('content', video.title);
+    } else {
+      const newOgTitle = document.createElement('meta');
+      newOgTitle.setAttribute('property', 'og:title');
+      newOgTitle.content = video.title;
+      document.head.appendChild(newOgTitle);
+    }
+
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    if (ogDescription) {
+      ogDescription.setAttribute('content', video.metadesc || video.description);
+    } else {
+      const newOgDescription = document.createElement('meta');
+      newOgDescription.setAttribute('property', 'og:description');
+      newOgDescription.content = video.metadesc || video.description;
+      document.head.appendChild(newOgDescription);
+    }
+
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    const currentUrl = `${window.location.origin}/videos/${video.slug}`;
+    if (ogUrl) {
+      ogUrl.setAttribute('content', currentUrl);
+    } else {
+      const newOgUrl = document.createElement('meta');
+      newOgUrl.setAttribute('property', 'og:url');
+      newOgUrl.content = currentUrl;
+      document.head.appendChild(newOgUrl);
+    }
+
+    // Update canonical URL
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) {
+      canonical.setAttribute('href', currentUrl);
+    } else {
+      const newCanonical = document.createElement('link');
+      newCanonical.rel = 'canonical';
+      newCanonical.href = currentUrl;
+      document.head.appendChild(newCanonical);
+    }
+  };
+
+  // Handle swipe gestures
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientY);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientY);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    const isUpSwipe = distance > 50;
+    const isDownSwipe = distance < -50;
+
+    if (isUpSwipe && currentVideoIndex < videos.length - 1) {
+      // Swipe up - next video
+      goToVideo(currentVideoIndex + 1);
+    } else if (isDownSwipe && currentVideoIndex > 0) {
+      // Swipe down - previous video
+      goToVideo(currentVideoIndex - 1);
+    }
+  };
+
+  // Handle video navigation with smooth transitions
+  const goToVideo = (index: number) => {
+    if (index >= 0 && index < videos.length && !isTransitioning) {
+      console.log(`🎯 Navigating to video ${index + 1}/${videos.length}: "${videos[index]?.title}"`);
+      setIsTransitioning(true);
+
+      // Pause all videos first
+      videoRefs.current.forEach((video, videoIndex) => {
+        if (video) {
+          video.pause();
+          if (videoIndex !== index) {
+            video.currentTime = 0; // Reset non-current videos to start
+          }
+        }
+      });
+
+      // Update current video index
+      setCurrentVideoIndex(index);
+
+      // Update URL without page refresh
+      const newUrl = `/videos/${videos[index].slug}`;
+      window.history.pushState({ videoIndex: index }, '', newUrl);
+
+      // Update SEO meta tags
+      updateSEOMetaTags(videos[index]);
+
+      // Scroll to current video with smooth animation
+      const videoElement = document.getElementById(`video-${index}`);
+      if (videoElement) {
+        videoElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+
+        // Play video after scroll animation completes
+        setTimeout(() => {
+          const currentVideo = videoRefs.current[index];
+          if (currentVideo) {
+          
+            currentVideo.play().catch(error => {
+          
+              // Try to play without sound if autoplay fails
+              currentVideo.muted = true;
+              currentVideo.play().catch(console.error);
+            });
+          }
+          setIsTransitioning(false);
+        }, 800); // Increased delay for smoother transition
+      } else {
+       
+        setIsTransitioning(false);
+      }
+
+      // Check if we need to load more videos (preload next page)
+      if (index >= videos.length - 3 && currentPage < totalPages && !isLoadingMore) {
+        
+        fetchVideos(currentPage + 1, true);
+      }
+    } else if (isTransitioning) {
+      console.log(`⏳ Navigation blocked - transition in progress`);
+    } else {
+      console.log(`❌ Invalid video index: ${index} (total: ${videos.length})`);
+    }
+  };
+
+  // Handle like video with API integration (one-way only - no unlike)
+  const handleLikeVideo = async (videoId: number) => {
+    try {
+      
+
+      // Get current video state
+      const currentVideo = videos.find(video => video.id === videoId);
+      if (!currentVideo) return;
+
+      const isCurrentlyLiked = currentVideo.liked_by_user === 1;
+
+      // If already liked, do nothing (no unlike functionality)
+      if (isCurrentlyLiked) {
+       
+        return;
+      }
+
+      const newStatus = 1; // Always like (status = 1)
+
+      // Get or generate persistent device ID using utility function
+      const deviceId = getOrCreateDeviceId();
+
+      // Get user ID if available (some APIs might require it)
+      let userId = '';
+      const userSession = localStorage.getItem('userSession');
+      if (userSession) {
+        try {
+          const session = JSON.parse(userSession);
+          userId = session.userData?.user_id || session.userData?.id || session.user_id || session.id || '';
+        } catch (err) {
+          console.warn('Failed to parse userSession for user_id:', err);
+        }
+      }
+
+      // Optimistically update UI first (only like, never unlike)
+      const originalLikeCount = currentVideo.like_count || 0;
+      console.log(`🔍 Original like count for video ${videoId}:`, originalLikeCount);
+
+      setVideos(prevVideos =>
+        prevVideos.map(video =>
+          video.id === videoId
+            ? {
+                ...video,
+                liked_by_user: 1, // Always set to liked
+                like_count: originalLikeCount + 1 // Temporary optimistic increment
+              }
+            : video
+        )
+      );
+
+     
+
+      // Prepare API request data with correct parameter names for videolike API
+      // Backend expects 'video_id' parameter based on Network tab analysis
+      const requestData: Record<string, string> = {
+        video_id: videoId.toString(), // Backend expects 'video_id' parameter
+        device_id: deviceId, // Backend maps device_id to database ipAddress column
+        status: newStatus.toString() // Backend maps status to database status column
+      };
+
+      // Add user_id only if available and not empty
+      if (userId && typeof userId === 'string' && userId.trim() !== '') {
+        requestData.user_id = userId;
+      } else if (userId && typeof userId === 'number') {
+        // Handle case where userId is a number
+        requestData.user_id = (userId as number).toString();
+      }
+
+     
+      // Try multiple API endpoints - first try videolike, then fallback to newsbookmark with like type
+      let response;
+      let apiEndpoint = 'videolike';
+
+      try {
+        response = await commonApiPost('videolike', requestData, true);
+
+        // If videolike returns 500, try alternative approach
+        if (response.status === 500) {
+         
+
+          // Try using newsbookmark with like type (this API uses news_id)
+          const alternativeData = {
+            news_id: videoId.toString(), // newsbookmark API uses news_id
+            user_id: userId || '',
+            status: newStatus.toString(),
+            bookmark_type: 'like' // Try like type instead of bookmark
+          };
+
+          response = await commonApiPost('newsbookmark', alternativeData, true);
+          apiEndpoint = 'newsbookmark (like)';
+        }
+      } catch (error) {
+        
+        throw error;
+      }
+
+     
+      let data;
+      try {
+        data = await response.json();
+       
+      } catch (parseError) {
+        
+        const textResponse = await response.text();
+       
+        throw new Error(`API returned invalid JSON. Status: ${response.status}, Response: ${textResponse}`);
+      }
+
+      if (!response.ok) {
+        
+        throw new Error(`API request failed with status ${response.status}: ${data?.message || response.statusText}`);
+      }
+
+      // Check if API response indicates success
+      if (data.success === false || data.status === 'error') {
+        throw new Error(data.message || 'API returned error status');
+      }
+
+      // Update with the actual count from API response instead of optimistic update
+      if (data.videolike !== undefined) {
+        // Update the video with the actual count from the API
+        setVideos(prevVideos =>
+          prevVideos.map(video =>
+            video.id === videoId
+              ? {
+                  ...video,
+                  liked_by_user: 1, // Keep liked status
+                  like_count: parseInt(data.videolike) // Use actual count from API
+                }
+              : video
+          )
+        );
+
+       
+      } else {
+        console.log(`✅ Like API successful for video ${videoId}. Keeping optimistic update.`);
+      }
+    } catch (err) {
+      console.error('❌ Error liking video:', err);
+
+      // Don't revert the optimistic update - keep the like for better UX
+      // The user will see their like even if the API is temporarily down
+
+      // Show user-friendly error message but keep the UI updated
+      console.warn('⚠️ API call failed, but keeping UI updated for better user experience');
+
+      // Keep the optimistic update (don't revert) and show a subtle message
+      // This way the user sees the like working even if the API is down
+
+      // Optional: Show a less intrusive message
+      // alert('Like saved locally. Will sync when connection improves.');
+    }
+  };
+
+  // Handle bookmark video with login redirection
+  const handleBookmarkVideo = async (videoId: number) => {
+    // Prevent multiple simultaneous bookmark requests
+    if (bookmarkingVideoId === videoId) {
+     
+      return;
+    }
+
+    try {
+     
+      setBookmarkingVideoId(videoId);
+
+      // Check if user is logged in using userSession (same as profile page)
+      const userSession = localStorage.getItem('userSession');
+      let userId = '';
+      let isUserLoggedIn = false;
+
+      if (userSession) {
+        try {
+          const session = JSON.parse(userSession);
+          userId = session.userData?.user_id || session.userData?.id;
+
+          if (!userId) {
+            userId = session.user_id || session.id || session.userData?.id;
+          }
+
+          // User is logged in if we have a valid userId
+          isUserLoggedIn = !!(userId && userId !== 'null' && userId !== '' && userId !== 'undefined');
+
+          
+        } catch (err) {
+        
+          isUserLoggedIn = false;
+          userId = '';
+        }
+      } else {
+        console.log('🔍 No userSession found in localStorage');
+      }
+
+      // User is NOT logged in - redirect to login
+      if (!isUserLoggedIn) {
+        // Store the current video URL and bookmark action for after login
+        const currentUrl = window.location.pathname;
+        const fullUrl = window.location.href;
+
+        
+
+        // Store the current URL for redirect after login
+        localStorage.setItem('redirectAfterLogin', currentUrl);
+        localStorage.setItem('pendingBookmarkAction', JSON.stringify({
+          videoId: videoId,
+          action: 'bookmark',
+          timestamp: Date.now()
+        }));
+
+        // Verify what was stored
+        const storedRedirect = localStorage.getItem('redirectAfterLogin');
+        const storedAction = localStorage.getItem('pendingBookmarkAction');
+
+       
+
+        // Add a small delay to ensure localStorage is written
+        setTimeout(() => {
+          console.log('🔄 Redirecting to login page...');
+          router.push('/login');
+        }, 100);
+
+        return;
+      }
+
+      // User IS logged in - proceed with bookmark
+    
+
+      // Get current video state
+      const currentVideo = videos.find(video => video.id === videoId);
+      if (!currentVideo) {
+      
+        return;
+      }
+
+      const isCurrentlyBookmarked = currentVideo.bookmark === 1;
+      const newStatus = isCurrentlyBookmarked ? 0 : 1; // Toggle bookmark status
+
+      
+
+      
+
+      // Optimistically update bookmark count (will be corrected by API response)
+      const estimatedBookmarkCount = currentVideo.bookmark_count || 0;
+      const optimisticBookmarkCount = newStatus === 1
+        ? estimatedBookmarkCount + 1
+        : Math.max(0, estimatedBookmarkCount - 1);
+
+      setVideos(prevVideos =>
+        prevVideos.map(video =>
+          video.id === videoId
+            ? {
+                ...video,
+                bookmark: newStatus,
+                bookmark_count: optimisticBookmarkCount
+              }
+            : video
+        )
+      );
+
+      // Call the API
+      const response = await fetch(`${COMMON_API_BASE_URL}/newsbookmark`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json',
+          'User-Agent': 'GSTV-NextJS-App/1.0',
+        },
+        body: new URLSearchParams({
+          news_id: videoId.toString(),
+          user_id: userId,
+          status: newStatus.toString(),
+          bookmark_type: 'video'
+        })
+      });
+
+      const data = await response.json();
+     
+      // More flexible success detection
+      // Note: data.status can be 0 (unbookmark) or 1 (bookmark) - both are successful operations
+      const isSuccess = response.ok && (
+        data.success === true ||
+        data.success === 1 ||
+        data.success === '1' ||
+        data.status === 'success' ||
+        data.status === 1 ||
+        data.status === '1' ||
+        data.status === 0 ||  // 0 means "unbookmark successful"
+        data.status === '0'   // String version of 0
+      );
+
+    
+
+      if (!isSuccess) {
+        // Revert the optimistic update if API call failed
+       
+        setVideos(prevVideos =>
+          prevVideos.map(video =>
+            video.id === videoId
+              ? {
+                  ...video,
+                  bookmark: isCurrentlyBookmarked ? 1 : 0
+                }
+              : video
+          )
+        );
+       
+      } else {
+        // Success - UI is already updated optimistically
+      
+
+        const message = newStatus === 1
+          ? 'વીડિયો બુકમાર્ક કરવામાં આવ્યો' // Video bookmarked
+          : 'વીડિયો બુકમાર્કમાંથી દૂર કરવામાં આવ્યો'; // Video removed from bookmarks
+
+     
+
+        // Optional: Show a brief success indicator
+        if (typeof window !== 'undefined' && (window as any).showToast) {
+          (window as any).showToast(message, 'success');
+        }
+
+        // Force a re-render to ensure UI is updated
+        setVideos(prevVideos => [...prevVideos]);
+      }
+    } catch (err) {
+     
+      // Revert optimistic update on error
+      const currentVideo = videos.find(video => video.id === videoId);
+      if (currentVideo) {
+        const isCurrentlyBookmarked = currentVideo.bookmark === 1;
+        setVideos(prevVideos =>
+          prevVideos.map(video =>
+            video.id === videoId
+              ? {
+                  ...video,
+                  bookmark: isCurrentlyBookmarked ? 1 : 0
+                }
+              : video
+          )
+        );
+      }
+    } finally {
+      // Clear loading state
+      setBookmarkingVideoId(null);
+    }
+  };
+
+  // Handle social sharing
+  const handleShare = (video: Video, platform: string) => {
+    const url = `${window.location.origin}/videos/${video.slug}`;
+    const text = video.title;
+
+    switch (platform) {
+      case 'whatsapp':
+        window.open(`https://wa.me/?text=${encodeURIComponent(text + ' - ' + url)}`, '_blank');
+        break;
+      case 'twitter':
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+        break;
+      case 'facebook':
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+        break;
+      default:
+        if (navigator.share) {
+          navigator.share({ title: text, url });
+        } else {
+          navigator.clipboard.writeText(url);
+          alert('Link copied to clipboard!');
+        }
+    }
+  };
+
+  // Browser history handling
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      if (event.state && typeof event.state.videoIndex === 'number') {
+        const targetIndex = event.state.videoIndex;
+        if (targetIndex >= 0 && targetIndex < videos.length) {
+          setCurrentVideoIndex(targetIndex);
+
+          // Scroll to the video without updating history again
+          const videoElement = document.getElementById(`video-${targetIndex}`);
+          if (videoElement) {
+            videoElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+
+          // Update SEO meta tags
+          updateSEOMetaTags(videos[targetIndex]);
+        }
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [videos]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case 'ArrowUp':
+          e.preventDefault();
+          goToVideo(currentVideoIndex - 1);
+          break;
+        case 'ArrowDown':
+          e.preventDefault();
+          goToVideo(currentVideoIndex + 1);
+          break;
+        case ' ':
+          e.preventDefault();
+          const currentVideo = videoRefs.current[currentVideoIndex];
+          if (currentVideo) {
+            if (currentVideo.paused) {
+              currentVideo.play();
+            } else {
+              currentVideo.pause();
+            }
+          }
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentVideoIndex]);
+
+  // Window resize handler for responsive design (fix hydration error)
+  useEffect(() => {
+    // Set mounted state to true after hydration
+    setIsMounted(true);
+
+    // Set initial window width
+    setWindowWidth(window.innerWidth);
+
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Handle pending bookmark action after login and refresh bookmark statuses
+  useEffect(() => {
+    const handlePendingBookmark = async () => {
+      const pendingAction = localStorage.getItem('pendingBookmarkAction');
+
+      // Check login status using userSession
+      const userSession = localStorage.getItem('userSession');
+      let userId = '';
+      let isLoggedIn = false;
+
+      if (userSession) {
+        try {
+          const session = JSON.parse(userSession);
+          userId = session.userData?.user_id || session.userData?.id;
+          if (!userId) {
+            userId = session.user_id || session.id || session.userData?.id;
+          }
+          isLoggedIn = !!(userId && userId !== 'null' && userId !== '' && userId !== 'undefined');
+        } catch (err) {
+          console.error('Error parsing userSession in pending bookmark:', err);
+        }
+      }
+
+      if (pendingAction && isLoggedIn && userId && videos.length > 0) {
+        try {
+          const action = JSON.parse(pendingAction);
+          const actionAge = Date.now() - action.timestamp;
+
+          // Only process if action is less than 5 minutes old
+          if (actionAge < 5 * 60 * 1000 && action.action === 'bookmark') {
+          
+            // Clear the pending action first
+            localStorage.removeItem('pendingBookmarkAction');
+            localStorage.removeItem('redirectAfterLogin');
+
+            // Find the video and execute bookmark
+            const targetVideo = videos.find(v => v.id === action.videoId);
+            if (targetVideo) {
+              // Wait a bit for UI to settle
+              setTimeout(() => {
+                handleBookmarkVideo(action.videoId);
+              }, 500);
+            }
+          } else {
+            // Clear expired or invalid actions
+            localStorage.removeItem('pendingBookmarkAction');
+            localStorage.removeItem('redirectAfterLogin');
+          }
+        } catch (err) {
+         
+          localStorage.removeItem('pendingBookmarkAction');
+          localStorage.removeItem('redirectAfterLogin');
+        }
+      }
+    };
+
+    // Check for pending actions when videos are loaded
+    if (videos.length > 0) {
+      handlePendingBookmark();
+    }
+  }, [videos]); // Depend on videos so it runs after video data is loaded
+
+  // Refresh video data when user logs in to get updated bookmark statuses
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'userSession' && e.newValue) {
+        
+        // Refresh video data to get updated bookmark statuses
+        fetchVideos(1, false);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+  if (loading) {
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        backgroundColor: '#000',
+        color: '#fff'
+      }}>
+        <div>Loading videos...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        backgroundColor: '#000',
+        color: '#fff',
+        flexDirection: 'column'
+      }}>
+        <h2>Error</h2>
+        <p>{error}</p>
+        <button
+          onClick={() => window.location.reload()}
+          style={{
+            padding: '10px 20px',
+            backgroundColor: '#dc3545',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            marginTop: '10px'
+          }}
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+
+  if (videos.length === 0) {
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        backgroundColor: '#000',
+        color: '#fff'
+      }}>
+        <h2>No videos found</h2>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      {/* Add CSS animations */}
+      <style jsx>{`
+        @keyframes bounce {
+          0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0);
+          }
+          40% {
+            transform: translateY(-10px);
+          }
+          60% {
+            transform: translateY(-5px);
+          }
+        }
+
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        .video-transition {
+          animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .swipe-hint {
+          animation: bounce 2s infinite;
+        }
+
+        /* Desktop Styles */
+        @media (min-width: 769px) {
+          .video-container {
+            position: relative;
+            width: 100%;
+            height: auto;
+          }
+
+          .video-player {
+            width: 100%;
+            height: auto;
+            max-height: 70vh;
+            object-fit: contain;
+            display: block;
+            border-radius: 0;
+          }
+
+          .innerbox {
+            position: relative;
+            max-width: 650px;
+            margin: 0 auto;
+          }
+
+          .shorts_art-img {
+            position: relative;
+            margin: 0;
+          }
+        }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+          .video-container {
+            height: 100vh !important;
+            width: 100vw !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            background-color: #000 !important;
+          }
+
+          .video-player {
+            width: 100vw !important;
+            height: 100vh !important;
+            object-fit: cover !important;
+            max-height: none !important;
+          }
+
+          .innerbox {
+            height: 100vh !important;
+            width: 100vw !important;
+            max-width: none !important;
+            margin: 0 !important;
+            background-color: transparent !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+          }
+
+          .shorts_art-img {
+            height: 100vh !important;
+            width: 100vw !important;
+            margin: 0 !important;
+          }
+
+          .swiper-slide {
+            height: 100vh !important;
+          }
+
+          /* Hide title and source on mobile */
+          .video-info-overlay {
+            display: none !important;
+          }
+
+          .video-title {
+            display: none !important;
+          }
+
+          .action-buttons {
+            right: 10px !important;
+            bottom: 60px !important;
+            gap: 10px !important;
+          }
+
+          .action-button {
+            width: 48px !important;
+            height: 48px !important;
+            font-size: 18px !important;
+          }
+
+          .navigation-buttons {
+            right: 10px !important;
+            top: 50% !important;
+            gap: 10px !important;
+          }
+
+          .nav-button {
+            width: 40px !important;
+            height: 40px !important;
+            font-size: 16px !important;
+          }
+
+          .back-button {
+            top: 15px !important;
+            left: 15px !important;
+            width: 40px !important;
+            height: 40px !important;
+            font-size: 16px !important;
+          }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 480px) {
+          .video-container {
+            height: 100vh !important;
+            width: 100vw !important;
+          }
+
+          .video-player {
+            width: 100vw !important;
+            height: 100vh !important;
+            object-fit: cover !important;
+            max-height: none !important;
+          }
+
+          .innerbox {
+            max-width: none !important;
+            background-color: transparent !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+          }
+
+          /* Hide title and source on mobile */
+          .video-info-overlay {
+            display: none !important;
+          }
+
+          .video-title {
+            display: none !important;
+          }
+
+          .action-buttons {
+            right: 8px !important;
+            bottom: 50px !important;
+            gap: 8px !important;
+          }
+
+          .action-button {
+            width: 56px !important;
+            height: 56px !important;
+            font-size: 16px !important;
+          }
+        }
+      `}</style>
+
+      <div
+        className="video-container"
+        style={{
+          height: '100vh',
+          overflow: 'hidden',
+          backgroundColor: windowWidth <= 768 ? '#000' : '#f5f5f5',
+          position: 'relative',
+          width: '100%'
+        }}
+      >
+      {/* Back Button - Mobile Responsive */}
+      <div style={{
+        position: 'fixed',
+        top: windowWidth <= 768 ? '15px' : '20px',
+        left: windowWidth <= 768 ? '15px' : '20px',
+        zIndex: 1000
+      }}>
+        <button
+          className="back-button"
+          onClick={() => router.push("/category/videos")}
+          style={{
+                background: 'rgba(0,0,0,0.7)',
+                border: '2px solid rgba(255,255,255,0.3)',
+                borderRadius: '50%',
+                width: windowWidth <= 768 ? '40px' : '45px',
+                height: windowWidth <= 768 ? '40px' : '45px',
+                color: 'white',
+                fontSize: windowWidth <= 768 ? '16px' : '18px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.3s ease',
+                backdropFilter: 'blur(10px)',
+                boxShadow: '0 4px 15px rgba(0,0,0,0.2)'
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.background = 'rgba(220,53,69,0.8)';
+                e.currentTarget.style.borderColor = '#dc3545';
+                e.currentTarget.style.transform = 'scale(1.1)';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.background = 'rgba(0,0,0,0.7)';
+                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)';
+                e.currentTarget.style.transform = 'scale(1)';
+              }}
+              title="પાછા જાઓ" // Go back
+        >
+          ←
+        </button>
+      </div>
+
+     
+
+   
+
+      {/* Navigation Controls - Desktop Only (like gstv.in) */}
+      {videos.length > 1 && windowWidth > 768 && (
+        <div
+          className="video-navigation-controls"
+          style={{
+            position: 'fixed',
+            right: windowWidth <= 768 ? '10px' : '31.5%',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            zIndex: 1000,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '15px'
+          }}>
+          {/* Previous Video Button - Up Arrow */}
+          {currentVideoIndex > 0 && (
+            <button
+              onClick={() => {
+                console.log('🔼 Previous video button clicked');
+                goToVideo(currentVideoIndex - 1);
+              }}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                width: '50px',
+                height: '50px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.3s ease',
+                padding: 0
+              }}
+              onMouseOver={(e) => {
+                const icon = e.currentTarget.querySelector('i');
+                if (icon) {
+                  (icon as HTMLElement).style.color = '#dc3545';
+                  (icon as HTMLElement).style.transform = 'scale(1.2)';
+                }
+              }}
+              onMouseOut={(e) => {
+                const icon = e.currentTarget.querySelector('i');
+                if (icon) {
+                  (icon as HTMLElement).style.color = '#8B0000';
+                  (icon as HTMLElement).style.transform = 'scale(1)';
+                }
+              }}
+              title="પાછલો વીડિયો" // Previous video
+            >
+              <i
+                className="fa-solid fa-chevron-up"
+                style={{
+                  fontSize: '40px',
+                  color: '#8B0000',
+                  transition: 'all 0.3s ease',
+                  filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))'
+                }}
+              ></i>
+            </button>
+          )}
+
+          {/* Next Video Button - Down Arrow */}
+          {currentVideoIndex < videos.length - 1 && (
+            <button
+              onClick={() => {
+                console.log('🔽 Next video button clicked');
+                goToVideo(currentVideoIndex + 1);
+              }}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                width: '50px',
+                height: '50px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.3s ease',
+                padding: 0
+              }}
+              onMouseOver={(e) => {
+                const icon = e.currentTarget.querySelector('i');
+                if (icon) {
+                  (icon as HTMLElement).style.color = '#dc3545';
+                  (icon as HTMLElement).style.transform = 'scale(1.2)';
+                }
+              }}
+              onMouseOut={(e) => {
+                const icon = e.currentTarget.querySelector('i');
+                if (icon) {
+                  (icon as HTMLElement).style.color = '#8B0000';
+                  (icon as HTMLElement).style.transform = 'scale(1)';
+                }
+              }}
+              title="આગળનો વીડિયો" // Next video
+            >
+              <i
+                className="fa-solid fa-chevron-down"
+                style={{
+                  fontSize: '40px',
+                  color: '#8B0000',
+                  transition: 'all 0.3s ease',
+                  filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))'
+                }}
+              ></i>
+            </button>
+          )}
+        </div>
+      )}
+
+      {/* Auto-Advance Indicator */}
+      {showAutoAdvanceIndicator && currentVideoIndex < videos.length - 1 && (
+        <div
+          className="auto-advance-indicator"
+          style={{
+            position: 'fixed',
+            bottom: windowWidth <= 768 ? '80px' : '100px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 1000,
+            background: 'rgba(0,0,0,0.8)',
+            color: 'white',
+            padding: windowWidth <= 768 ? '8px 16px' : '12px 20px',
+            borderRadius: '25px',
+            fontSize: windowWidth <= 768 ? '12px' : '14px',
+            fontFamily: "'Noto Sans Gujarati', sans-serif",
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            animation: 'fadeIn 0.3s ease-in-out'
+          }}>
+          <div style={{
+            width: '20px',
+            height: '20px',
+            border: '2px solid #dc3545',
+            borderTop: '2px solid transparent',
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite'
+          }}></div>
+          આગળનો વીડિયો આવી રહ્યો છે... {/* Next video coming... */}
+        </div>
+      )}
+<div className="sliderOuter videoOuter">
+    <div className="swiper-container">
+        <div className="swiper-wrapper" id="videolist">
+            <div
+        ref={containerRef}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        style={{
+          height: '100vh',
+          // overflowY: 'auto',
+          scrollSnapType: 'y mandatory',
+          scrollBehavior: 'smooth',
+          touchAction: 'pan-y' // Allow vertical scrolling/swiping
+        }}
+      >
+        
+        {videos.map((video, index) => (
+          <div
+            key={video.id}
+            id={`video-${index}`}
+            className="video-wrapper"
+            style={{
+              height: '100vh',
+              position: 'relative',
+              scrollSnapAlign: 'start',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: isTransitioning ? 'transform 0.3s ease-in-out' : 'none'
+            }}
+          >
+           
+           <div className="swiper-slide">
+
+    <div className="innerbox" style={{
+      maxWidth: windowWidth > 768 ? '650px' : '100%',
+      margin: windowWidth > 768 ? '0 auto' : '0',
+      backgroundColor: windowWidth > 768 ? '#fff' : 'transparent',
+      borderRadius: windowWidth > 768 ? '12px' : '0',
+      boxShadow: windowWidth > 768 ? '0 4px 20px rgba(0,0,0,0.15)' : 'none',
+      overflow: 'hidden'
+    }}>
+        <figure className="shorts_art-img" style={{
+          margin: 0,
+          padding: 0
+        }}>
+            <div className="video-container" style={{
+              position: 'relative',
+              backgroundColor: '#000'
+            }}>
+
+
+            <video
+              ref={el => { videoRefs.current[index] = el; }}
+              src={video.videoURL}
+              className="video-player"
+              style={{
+                width: '100%',
+                height: '100%'
+               
+              }}
+              controls
+              muted
+              playsInline
+              preload="metadata"
+              onTimeUpdate={(e) => {
+                const video = e.currentTarget;
+                const timeLeft = video.duration - video.currentTime;
+
+                // Show auto-advance indicator in last 3 seconds
+                if (timeLeft <= 3 && timeLeft > 0 && index === currentVideoIndex) {
+                  setShowAutoAdvanceIndicator(true);
+                } else {
+                  setShowAutoAdvanceIndicator(false);
+                }
+              }}
+              onEnded={() => {
+              
+                setShowAutoAdvanceIndicator(false);
+
+                if (index < videos.length - 1) {
+                  // Move to next video in current batch
+                  console.log(`Moving to next video: ${index + 1}`);
+                  setTimeout(() => {
+                    goToVideo(index + 1);
+                  }, 1500); // 1.5 second delay before auto-advance
+                } else if (currentPage < totalPages && !isLoadingMore) {
+                  // Load next page if we're at the last video
+                  console.log(`🚀 Last video ended - loading next page: ${currentPage + 1}`);
+                  fetchVideos(currentPage + 1, true).then(() => {
+                    // After loading new videos, move to the first video of the new batch
+                    setTimeout(() => {
+                      if (videos.length > index + 1) {
+                        console.log(`Moving to first video of new batch: ${index + 1}`);
+                        goToVideo(index + 1);
+                      }
+                    }, 1000);
+                  });
+                } else {
+                  // No more videos, show completion message
+                  console.log(`🏁 Reached end of all videos`);
+                  alert('તમે બધા વીડિયો જોઈ લીધા છે!'); // You have watched all videos!
+                }
+              }}
+              onPlay={() => {
+                // Pause other videos when this one plays
+                console.log(`▶️ Playing video ${index + 1}`);
+                videoRefs.current.forEach((otherVideo, otherIndex) => {
+                  if (otherVideo && otherIndex !== index) {
+                    otherVideo.pause();
+                    otherVideo.currentTime = 0; // Reset other videos to start
+                  }
+                });
+              }}
+              onLoadedMetadata={() => {
+                // Auto-play current video if it's the active one
+                if (index === currentVideoIndex) {
+                  const video = videoRefs.current[index];
+                  if (video) {
+                    video.play().catch(error => {
+                      console.log(`Auto-play failed for video ${index + 1}:`, error);
+                    });
+                  }
+                }
+              }}
+            />
+
+            </div>
+            </figure>
+
+            {/* Source text - Below video on desktop, hidden on mobile */}
+            {windowWidth > 768 && video.img_credit_txt && (
+              <div style={{
+                padding: '8px 15px',
+                backgroundColor: '#fff',
+                borderTop: '1px solid #f0f0f0'
+              }}>
+                <p style={{
+                  fontSize: '11px',
+                  margin: '0',
+                  color: '#666',
+                  fontStyle: 'italic',
+                  textAlign: 'left',
+                  fontFamily: "'Noto Sans Gujarati', sans-serif"
+                }}>
+                  <strong style={{ color: '#333' }}>સોર્સ:</strong> {video.img_credit_txt}
+                </p>
+              </div>
+            )}
+            </div>
+            </div>
+
+            {/* Video Info Overlay - GSTV Style - Hidden on Mobile */}
+            {windowWidth > 768 && (
+              <div
+                className="video-info-overlay"
+                style={{
+                  position: 'absolute',
+                  bottom: '0',
+                  left: '0',
+                  right: '0',
+                  background: 'linear-gradient(to top, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 50%, transparent 100%)',
+                  padding: '60px 20px 15px 20px',
+                  color: 'black',
+                  zIndex: 10
+                }}>
+                <h2
+                  className="video-title"
+                  style={{
+                    fontSize: '16px',
+                    margin: '0',
+                    fontFamily: "'Noto Sans Gujarati', sans-serif",
+                    fontWeight: '700',
+                    lineHeight: '1.4',
+                    color: '#8B0000',
+                    textAlign: 'center',
+                    textShadow: '0 1px 2px rgba(255,255,255,0.8)'
+                  }}>
+                  {video.title}
+                </h2>
+              </div>
+            )}
+
+            {/* Action Buttons - GSTV Style Mobile Responsive - Only show for current video */}
+           {index === currentVideoIndex && (
+             <VideoActionButtons
+                videoId={video.id}
+                videoSlug={video.slug}
+                videoTitle={video.title}
+                videohorizontal={video.is_video_horizontal || 0}
+                likeCount={video.like_count || 0}
+                likedByUser={video.liked_by_user || 0}
+                bookmark={video.bookmark || 0}
+                onLike={handleLikeVideo}
+                onBookmark={handleBookmarkVideo}
+                onShare={(platform) => handleShare(video, platform)}
+                isBookmarking={bookmarkingVideoId === video.id}
+              />
+           )}
+            
+          </div>
+        ))}
+      </div>
+        </div>
+        <div className="swiper-pagination"></div>
+        <div className="swiper-button-prev"></div>
+        <div className="swiper-button-next"></div>
+    </div>
+</div>
+   
+     
+
+
+    </div>
+     {/* Animation */}
+      <style jsx>{`
+        @media (min-width: 1200px) and (max-width: 1400px) {
+  .video-navigation-controls {
+    right: 20px !important;
+  }
+
+  .action-buttons {
+    right: 20px !important;
+  }
+}
+
+/* Prevent next video overlap */
+.video-wrapper {
+  height: 100vh !important;
+  min-height: 100vh !important;
+  max-height: 100vh !important;
+  overflow: hidden !important;
+}
+      `}</style>
+    </>
+  );
+}

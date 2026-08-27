@@ -1,0 +1,6 @@
+/* GSTV Magazine Slider Styles - Only magazine-specific overrides */
+
+/* Remove the WebStory carousel icon overlay for magazines only */
+.custom-webstory-image.magazine-image::after {
+  display: none !important;
+}

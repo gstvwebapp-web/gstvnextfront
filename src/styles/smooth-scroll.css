@@ -1,0 +1,75 @@
+/* Global smooth scrolling for GSTV news pages (like live site) */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Account for fixed header */
+}
+
+/* Smooth scrolling for all elements */
+* {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced smooth scrolling for webkit browsers */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Smooth transitions for news items */
+.news-item-container {
+  transition: all 0.3s ease-in-out;
+  scroll-margin-top: 80px; /* Smooth scroll positioning */
+}
+
+/* Smooth URL transition indicator */
+.news-item-container.active {
+  border-left: 4px solid #ff6b35;
+  padding-left: 16px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Smooth fade-in for new content */
+.news-content {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Smooth infinite scroll loading */
+.infinite-scroll-loading {
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.infinite-scroll-loading.visible {
+  opacity: 1;
+}
+
+/* Smooth bookmark icon transitions */
+.bookmark-icon {
+  transition: all 0.2s ease-in-out;
+}
+
+.bookmark-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Smooth loading animations */
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

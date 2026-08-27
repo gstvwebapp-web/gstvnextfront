@@ -1,0 +1,7 @@
+# Security Disclosure Policy for GSTV - Gujarat Samachar News Portal
+Contact: mailto:security@gstv.in
+Contact: https://www.gstv.in/contact-us
+Expires: 2027-12-31T23:59:59.000Z
+Preferred-Languages: gu, en
+Canonical: https://www.gstv.in/.well-known/security.txt
+Policy: https://www.gstv.in/terms-condition

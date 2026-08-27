@@ -1,0 +1,1106 @@
+
+
+.top-videos-section {
+  margin: 20px 0;
+  padding: 20px 0;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Carousel Styles */
+.carousel-inner-top {
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+}
+
+.MultiCarousel {
+  position: relative;
+  overflow: hidden;
+  /* Optimize for mobile scrolling */
+  -webkit-overflow-scrolling: touch;
+  /* Drag cursor */
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.MultiCarousel:active {
+  cursor: grabbing;
+}
+
+.MultiCarousel-inner {
+  display: flex;
+  transition: transform 0.3s ease;
+  /* Prevent flickering on mobile */
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+.MultiCarousel-inner.topvideos {
+  align-items: stretch;
+}
+
+/* Video Item Styles - GSTV Design */
+.item {
+  padding: 0;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.pad15 {
+  padding: 8px;
+}
+
+/* Video Card Wrapper - Matches GSTV Design */
+.video-card-wrapper {
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  height: 100%;
+  transition: all 0.3s ease;
+  border: 3px solid #b1974f;
+  position: relative;
+}
+
+.video-card-wrapper:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Video Thumbnail Container - GSTV Style */
+.video-thumbnail-container {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.video-thumbnail-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.video-card-wrapper:hover .video-thumbnail-img {
+  transform: scale(1.05);
+}
+
+/* Location Tag - Top Left */
+.location-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(177, 151, 79, 0.9);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  z-index: 3;
+  font-family: 'Noto Sans Gujarati', sans-serif;
+}
+
+.location-tag i {
+  font-size: 10px;
+}
+
+/* GSTV Logo - Top Right */
+.gstv-logo-overlay {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(133, 14, 0, 0.9);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: bold;
+  z-index: 3;
+  letter-spacing: 1px;
+}
+
+.gstv-text {
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+}
+
+/* Play Button - Center */
+.play-button-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+}
+
+.play-button-circle {
+  width: 50px;
+  height: 50px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.play-button-circle i {
+  color: white;
+  font-size: 18px;
+  margin-left: 2px;
+}
+
+.video-card-wrapper:hover .play-button-circle {
+  background: rgba(133, 14, 0, 0.9);
+  transform: scale(1.1);
+}
+
+/* Video Title Section - GSTV Style */
+.video-title-section {
+  padding: 12px 15px 15px 15px;
+  background: white;
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+}
+
+.video-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.3;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'Noto Sans Gujarati', sans-serif;
+  text-align: left;
+}
+
+.video-card-wrapper:hover .video-title {
+  color: #850E00;
+}
+
+/* Navigation Button Styles - GSTV Design */
+.leftLst,
+.rightLst {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  background: rgba(133, 14, 0, 0.9);
+  border: 2px solid #b1974f;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.leftLst:hover,
+.rightLst:hover {
+  background: rgba(133, 14, 0, 1);
+  border-color: #d4af37;
+  color: white;
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.leftLst:disabled,
+.rightLst:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: rgba(100, 100, 100, 0.6);
+  border-color: #ccc;
+  transform: translateY(-50%);
+}
+
+.leftLst:disabled:hover,
+.rightLst:disabled:hover {
+  background: rgba(100, 100, 100, 0.6);
+  border-color: #ccc;
+  color: white;
+  transform: translateY(-50%);
+}
+
+.leftLst {
+  left: -3px;
+}
+
+.rightLst {
+  right: -3px;
+}
+
+.leftLst i,
+.rightLst i {
+  font-size: 16px;
+}
+
+/* Loading Spinner */
+.loader {
+  display: none;
+}
+
+/* Link styles */
+.item a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.item a:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+.swiper-button-prev-custom {
+  left: 10px;
+}
+
+.swiper-button-next-custom {
+  right: 10px;
+}
+
+.swiper-button-prev-custom:hover,
+.swiper-button-next-custom:hover {
+  background: white;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.swiper-button-prev-custom i,
+.swiper-button-next-custom i {
+  font-size: 16px;
+  color: #333;
+}
+
+/* Loading and Error States */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #d32f2f;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-message {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.error-message p {
+  color: #d32f2f;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.retry-btn {
+  background: #d32f2f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+
+.retry-btn:hover {
+  background: #b71c1c;
+}
+
+/* Responsive Design - GSTV Style */
+@media (max-width: 1024px) {
+  .video-thumbnail-container {
+    height: 160px;
+  }
+
+  .video-title {
+    font-size: 12px;
+  }
+
+  .location-tag {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+
+  .gstv-logo-overlay {
+    font-size: 9px;
+    padding: 3px 6px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pad15 {
+    padding: 6px;
+  }
+
+  .video-thumbnail-container {
+    height: 140px;
+  }
+
+  .video-title-section {
+    padding: 10px 12px 12px 12px;
+    min-height: 60px;
+  }
+
+  .video-title {
+    font-size: 11px;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .play-button-circle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .play-button-circle i {
+    font-size: 14px;
+  }
+
+  .location-tag {
+    font-size: 9px;
+    padding: 2px 5px;
+    top: 8px;
+    left: 8px;
+  }
+
+  .gstv-logo-overlay {
+    font-size: 8px;
+    padding: 2px 5px;
+    top: 8px;
+    right: 8px;
+  }
+}
+
+@media (max-width: 640px) {
+  .video-card-wrapper {
+    border-radius: 15px;
+    border-width: 2px;
+  }
+
+  .video-thumbnail-container {
+    height: 120px;
+  }
+
+  .video-title-section {
+    padding: 8px 10px 10px 10px;
+    min-height: 50px;
+  }
+
+  .video-title {
+    font-size: 10px;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .play-button-circle {
+    width: 35px;
+    height: 35px;
+  }
+
+  .play-button-circle i {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pad15 {
+    padding: 4px;
+  }
+
+  .video-thumbnail-container {
+    height: 100px;
+  }
+
+  .video-title-section {
+    padding: 6px 8px 8px 8px;
+    min-height: 45px;
+  }
+
+  .video-title {
+    font-size: 9px;
+  }
+
+  .location-tag {
+    font-size: 8px;
+    padding: 1px 4px;
+    top: 6px;
+    left: 6px;
+  }
+
+  .gstv-logo-overlay {
+    font-size: 7px;
+    padding: 1px 4px;
+    top: 6px;
+    right: 6px;
+  }
+
+  .play-button-circle {
+    width: 30px;
+    height: 30px;
+  }
+
+  .play-button-circle i {
+    font-size: 10px;
+  }
+}
+
+/* =====================
+   FULL SKELETON LOADER
+===================== */
+
+
+/* Shimmer base */
+.shimmer {
+  background: linear-gradient(
+    110deg,
+    #e0e0e0 25%,
+    #f5f5f5 37%,
+    #e0e0e0 63%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite linear;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Wrapper on each slide */
+.item {
+  position: relative;
+  /* min-height: 250px; */
+  overflow: hidden;
+  /* Prevent layout shift */
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Skeleton overlay */
+.skeleton-wrapper {
+  position: absolute;
+  inset: 0;
+  padding: 8px;
+  z-index: 5;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  /* Smooth transition */
+  transition: opacity 0.2s ease;
+}
+
+/* Big thumbnail block */
+.skeleton-image {
+  width: 100%;
+  height: 200px;
+  border-radius: 6px;
+}
+
+/* Play icon circle */
+.skeleton-play {
+  width: 45px;
+  height: 45px;
+  margin: -25px auto 0 auto;
+}
+
+.shimmer-circle {
+  border-radius: 50%;
+  background: linear-gradient(
+    110deg,
+    #ddd 25%,
+    #f2f2f2 37%,
+    #ddd 63%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite linear;
+}
+
+/* Title strip */
+.skeleton-title {
+  height: 14px;
+  margin-top: 16px;
+  border-radius: 4px;
+  width: 90%;
+}
+
+/* Real content: always visible, skeleton fades out */
+.real-content {
+  opacity: 1;
+  position: relative;
+  z-index: 10;
+  /* Prevent flickering */
+  will-change: opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* When image finished loading - fade out skeleton */
+.item.loaded .skeleton-wrapper {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .item {
+    min-height: 150px;
+    /* Optimize for mobile scrolling */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+  
+  .skeleton-image {
+    height: 150px;
+  }
+  
+  /* Faster transitions on mobile */
+  .skeleton-wrapper {
+    transition: opacity 0.15s ease;
+  }
+  
+  /* Prevent touch delay */
+  .real-content {
+    touch-action: manipulation;
+  }
+}
+
+/* ── Top Videos with category tabs ────────────────────────────── */
+.top-videos-section-wrap {
+  width: 100%;
+  float: left;
+  background: #fff;
+}
+
+/* Category tabs — bottom bar matching the screenshot */
+.tv-cat-tabs {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-top: 2px solid #850E00;
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.tv-cat-tabs::-webkit-scrollbar { display: none; }
+
+.tv-cat-tab {
+  font-family: "Hind Vadodara", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  background: transparent;
+  border: none;
+  padding: 10px 18px;
+  cursor: pointer;
+  white-space: nowrap;
+  border-right: 1px solid #e0e0e0;
+  transition: background 0.2s, color 0.2s;
+  flex-shrink: 0;
+}
+
+.tv-cat-tab:last-child {
+  border-right: none;
+}
+
+.tv-cat-tab.active {
+  background: #850E00;
+  color: #fff;
+}
+
+.tv-cat-tab:hover:not(.active) {
+  background: #f5f5f5;
+  color: #850E00;
+}
+
+@media (max-width: 575px) {
+  .tv-cat-tab {
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   TopVideos — category tabs + cards design
+   ═══════════════════════════════════════════════════════ */
+
+/* Outer wrapper */
+.tv-wrap {
+  width: 100%;
+  float: left;
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+/* Red-bordered box */
+.tv-box {
+  /* border: 2px solid #850E00; */
+  /* border-radius: 10px; */
+  overflow: hidden;
+  /* background: #800d00; */
+}
+
+/* Carousel inside box */
+/* .tv-carousel {
+  padding: 6px 4px 4px;
+  background: #800d00;
+} */
+
+/* ── Card ──────────────────────────────────────── */
+.tv-item {
+  box-sizing: border-box;
+}
+
+.tv-card {
+  border: 2px solid #850E00;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  /* height: 100%; */
+}
+
+/* Top title bar — dark red bg */
+.tv-card-title-top {
+  background: #850E00;
+  padding: 6px 8px;
+  min-height: 52px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.tv-card-title-top a {
+  color: #fff !important;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-decoration: none !important;
+}
+
+/* Thumbnail */
+.tv-thumb-link {
+  display: block;
+  flex: 1;
+}
+
+.tv-thumb-wrap {
+  position: relative;
+  width: 100%;
+  padding-bottom: 60%;   /* 5:3 ratio */
+  background: #111;
+  overflow: hidden;
+}
+
+.tv-thumb-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Play icon overlay */
+.tv-play-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.tv-play-icon i {
+  font-size: 36px;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+  transition: transform 0.2s;
+}
+
+.tv-card:hover .tv-play-icon i {
+  transform: scale(1.12);
+}
+
+/* Bottom title bar — dark red bg */
+.tv-card-title-bottom {
+  background: #850E00;
+  padding: 5px 8px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.tv-card-title-bottom a {
+  color: #fff !important;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-decoration: none !important;
+}
+
+/* ── Category tabs ─────────────────────────────── */
+.tv-tabs {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-top: 0px solid #850E00;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  width: 100%;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  scroll-behavior: smooth;
+}
+
+.tv-tabs:active {
+  cursor: grabbing;
+}
+
+.tv-tabs::-webkit-scrollbar { display: none; }
+
+.tv-tab {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+  background: transparent;
+  border: none;
+  border-right: 1px solid #ddd;
+  padding: 10px 18px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+}
+
+.tv-tab:last-child { border-right: none; }
+
+.tv-tab.active {
+  background: #850E00;
+  color: #fff;
+}
+
+.tv-tab:hover:not(.active) {
+  color: #850E00;
+}
+
+/* ── Responsive ────────────────────────────────── */
+@media (max-width: 575px) {
+  .tv-wrap { padding: 0px; }
+  .tv-card-title-top { min-height: 44px; }
+  .tv-card-title-top a { font-size: 11px; }
+  .tv-card-title-bottom { min-height: 34px; }
+  .tv-card-title-bottom a { font-size: 10px; }
+  .tv-tab { font-size: 12px; padding: 8px 10px; }
+  .tv-play-icon i { font-size: 28px; }
+}
+
+/* ── New card class aliases (tv-card-top/bottom/thumb/play) ── */
+.tv-card-top {
+  background: #850E00;
+  padding: 6px 8px;
+  min-height: 52px;
+  display: flex;
+  align-items: flex-start;
+}
+.tv-card-top a {
+  color: #fff !important;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-decoration: none !important;
+}
+.tv-thumb {
+  position: relative;
+  width: 100%;
+  padding-bottom: 60%;
+  background: #111;
+  overflow: hidden;
+}
+.tv-thumb img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.tv-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.tv-play i {
+  font-size: 36px;
+  color: rgba(255,255,255,0.85);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+  transition: transform 0.2s;
+}
+.tv-card:hover .tv-play i { transform: scale(1.12); }
+
+.tv-card-bottom {
+  background: #850E00;
+  padding: 5px 8px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+}
+.tv-card-bottom a {
+  color: #fff !important;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-decoration: none !important;
+}
+@media (max-width: 575px) {
+  .tv-card-top { min-height: 44px; }
+  .tv-card-top a { font-size: 11px; }
+  .tv-card-bottom { min-height: 34px; }
+  .tv-card-bottom a { font-size: 10px; }
+  .tv-play i { font-size: 28px; }
+}
+
+/* ── Full-image card with overlay title ─────────────────────── */
+
+/* Card: no separate top/bottom bars — all image */
+.tv-card {
+  border: 2px solid #850E00;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #111;
+  display: flex;
+  flex-direction: column;
+  /* height: 100%; */
+  position: relative;
+}
+
+.tv-thumb-link {
+  display: block;
+  flex: 1;
+}
+
+/* Thumbnail fills the full card */
+.tv-thumb {
+  position: relative;
+  width: 100%;
+  /* Fixed height so all cards are uniform */
+  height: 250px;
+  background: #111;
+  overflow: hidden;
+}
+.tv-thumb1 {
+  position: relative;
+  width: 100%;
+  /* height: 300px; */
+  /* 220px */
+  background: #111;
+  overflow: hidden;
+}
+.tv-thumb1 img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .3s ease;
+  display: block;
+}
+@media (min-width: 1700px) {
+  .tv-thumb1 {
+    /* height: 370px; */
+  }
+}
+.tv-thumb img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Play icon — centered */
+.tv-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 3;
+}
+.tv-play i {
+  font-size: 40px;
+  color: rgba(255, 255, 255, 0.80);
+  text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+  transition: transform 0.2s;
+}
+.tv-card:hover .tv-play i {
+  transform: scale(1.15);
+}
+
+/* Gradient overlay — transparent at top, dark red at bottom */
+.tv-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  /* gradient: transparent → dark */
+  background:linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.15) 40%, #0000007a 70%, #000000e3 100%);
+  padding: 30px 8px 8px;
+}
+
+/* Title inside overlay */
+.tv-overlay-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+}
+@media (max-width: 1300px) {
+  .tv-thumb { height: 200px; }
+  /* .tv-thumb1 { height: 190px; } */
+}
+@media (max-width: 1000px) {
+  .tv-thumb { height: 200px; }
+  /* .tv-thumb1 { height: 150px; } */
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .tv-thumb { height: 200px; }
+  /* .tv-thumb1 { height: 230px; } */
+  .tv-play i { font-size: 30px; }
+  .tv-overlay-title { font-size: 11px; }
+  .tv-carousel{margin-bottom: 0px;}
+}
+@media (max-width: 480px) {
+  /* .tv-thumb { height: 130px; } */
+  /* .tv-thumb1 { height: 175px; } */
+  .tv-play i { font-size: 26px; }
+  .tv-overlay-title { font-size: 10px; }
+}
+
+/* ── Video title / category link below thumbnail ── */
+.tv-title-link {
+  display: block;
+  padding: 5px 6px 6px;
+  background: #850E00;
+  text-decoration: none !important;
+  transition: background 0.2s;
+}
+.tv-title-link:hover {
+  background: #6a0b00;
+}
+.tv-cat-name {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: #fff !important;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+/* ── Category label below each video card ── */
+.tv-cat-label {
+  display: block;
+  width: 100%;
+  padding: 6px 10px;
+  background: #fff;
+  color: #333;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background 0.2s, color 0.2s;
+  border-top: 1px solid rgba(133,14,0,0.15);
+}
+.tv-cat-label:hover {
+  background: #850E00;
+  color: #fff !important;
+}
+@media (max-width: 575px) {
+  .tv-cat-label { font-size: 16px; padding: 5px 6px; }
+}

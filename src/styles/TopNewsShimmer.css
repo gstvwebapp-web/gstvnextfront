@@ -1,0 +1,104 @@
+/* =======================
+   SHIMMER ANIMATION
+======================= */
+
+.shimmer {
+  background: linear-gradient(
+    110deg,
+    #e0e0e0 25%,
+    #f5f5f5 37%,
+    #e0e0e0 63%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* =======================
+   PAGE OVERLAY
+======================= */
+
+.shimmer-parent {
+  position: relative;
+  min-height: 500px;         /* IMPORTANT — ensures skeleton visible */
+}
+
+/* =======================
+   GRID SKELETON LAYOUT
+======================= */
+
+.topnews-shimmer-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 99;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);   /* SAME AS LIVE LAYOUT */
+  gap: 15px;
+  padding: 15px;
+  background: white;
+}
+
+/* =======================
+   SKELETON CARD
+======================= */
+
+.topnews-skeleton-card {
+  border: 1px solid #d3b26c;
+  border-radius: 14px;
+  overflow: hidden;
+  background: white;
+}
+
+/* IMAGE AREA */
+.skeleton-image {
+  height: 300px;
+  width: 100%;
+}
+
+/* RED STRIP */
+.skeleton-strip {
+  height: 36px;
+  border-radius: 6px;
+  margin: -18px 12px 10px;
+}
+
+/* TEXT LINE */
+.skeleton-text {
+  height: 16px;
+  margin: 10px 12px;
+  border-radius: 4px;
+}
+
+/* META FOOTER */
+.skeleton-meta {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 12px 10px;
+}
+
+.meta-line {
+  width: 70px;
+  height: 12px;
+  border-radius: 4px;
+}
+
+.meta-icons {
+  width: 90px;
+  height: 12px;
+  border-radius: 4px;
+}
+
+/* =======================
+   MOBILE
+======================= */
+
+@media (max-width: 768px) {
+  .topnews-shimmer-overlay {
+    grid-template-columns: 1fr;
+  }
+}

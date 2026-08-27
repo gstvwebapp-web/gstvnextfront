@@ -1,0 +1,231 @@
+/* ============================================
+   Breaking News Marquee Styles
+   ============================================ */
+
+.bn-marquee-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 40px;
+  background: linear-gradient(90deg, #8B0000 0%, #a30000 100%);
+  color: white;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+  animation: slideIn 0.5s ease-out;
+  z-index: 100;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.bn-marquee-wrap.bn-closing {
+  animation: slideOut 0.4s ease-in forwards;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOut {
+  to {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}
+
+/* Left Label */
+.bn-marquee-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  font-weight: bold;
+  font-size: 16px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  background-color: #8B0000;
+  height: 100%;
+  letter-spacing: 0.5px;
+}
+
+/* Divider */
+.bn-marquee-divider {
+  width: 2px;
+  height: 24px;
+  background-color: rgba(255, 255, 255, 0.3);
+  margin: 0 2px;
+  flex-shrink: 0;
+}
+
+/* Marquee Container */
+.bn-marquee-container {
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 0 12px;
+}
+
+/* Marquee Content - Continuous Scrolling */
+.bn-marquee-content {
+  display: flex;
+  align-items: center;
+  gap: 0px;
+  height: 100%;
+  white-space: nowrap;
+  animation: marquee 60s linear infinite;
+  padding-right: 50px;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Pause on hover */
+.bn-marquee-container:hover .bn-marquee-content {
+  animation-play-state: paused;
+}
+
+/* Individual Title Links */
+.bn-marquee-title {
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+  padding: 0 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.bn-marquee-title:hover {
+  color: #ffeb3b;
+  text-shadow: 0 0 8px rgba(255, 235, 59, 0.5);
+}
+
+/* Separator Between Items */
+.bn-marquee-separator {
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  padding: 0 8px;
+  flex-shrink: 0;
+  animation: pulse-separator 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-separator {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.bn-marquee-container .fa-bolt:before{
+  color: #fff !important;
+}
+/* Close Button */
+.bn-marquee-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 50px;
+  background: transparent;
+  color: white;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  flex-shrink: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.bn-marquee-close:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #ffeb3b;
+}
+
+.bn-marquee-close:active {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .bn-marquee-wrap {
+    height: 45px;
+  }
+
+  .bn-marquee-label {
+    padding: 0 8px;
+    /* font-size: 14px; */
+    gap: 8px;
+  }
+
+  .bn-marquee-title {
+    /* font-size: 14px; */
+  }
+
+  .bn-marquee-separator {
+    font-size: 14px;
+    padding: 0 6px;
+  }
+
+  .bn-marquee-close {
+    width: 36px;
+    height: 45px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bn-marquee-wrap {
+    height: 40px;
+  }
+
+  .bn-marquee-label {
+    padding: 0 6px;
+    /* font-size: 12px; */
+    gap: 8px;
+  }
+
+  .bn-marquee-container {
+    padding: 0 8px;
+  }
+
+  .bn-marquee-title {
+    /* font-size: 12px; */
+  }
+
+  .bn-marquee-separator {
+    font-size: 12px;
+    padding: 0 4px;
+  }
+
+  .bn-marquee-close {
+    width: 32px;
+    height: 40px;
+    font-size: 16px;
+  }
+}

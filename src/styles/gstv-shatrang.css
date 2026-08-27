@@ -1,0 +1,179 @@
+/* GSTV શતરંગ Layout Styles - Exact Match */
+
+.gstv-shatrang-layout {
+  font-family: "Hind Vadodara", sans-serif;
+  background-color: #fff;
+  min-height: 100vh;
+  padding: 0;
+}
+
+.gstv-shatrang-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.gstv-shatrang-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 30px;
+  padding: 20px 0;
+}
+
+.gstv-author-card {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  text-align: center;
+}
+
+.author-card {
+  background-color: transparent;
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: none;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  border: none;
+  position: relative;
+  padding: 10px;
+}
+
+.gstv-author-card:hover .author-card {
+  transform: scale(1.05);
+}
+
+.author-image-container {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 15px auto;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  background-color: #f0f0f0;
+  border: 3px solid #ddd;
+}
+
+.author-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.gstv-author-card:hover .author-image-container img {
+  transform: scale(1.1);
+}
+
+.author-info {
+  padding: 0;
+  text-align: center;
+  background-color: transparent;
+}
+
+.author-info h4 {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+  line-height: 1.3;
+  font-family: "Hind Vadodara", sans-serif;
+  transition: color 0.3s ease;
+  word-wrap: break-word;
+  max-width: 150px;
+  margin: 0 auto;
+}
+
+.gstv-author-card:hover .author-info h4 {
+  color: #850E00;
+}
+
+.load-more-section {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.load-more-btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: normal;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: Arial, sans-serif;
+}
+
+.load-more-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .gstv-shatrang-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 25px;
+  }
+
+  .author-image-container {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .gstv-shatrang-container {
+    padding: 15px;
+  }
+
+  .gstv-shatrang-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 20px;
+  }
+
+  .author-image-container {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+  }
+
+  .author-info h4 {
+    font-size: 12px;
+    max-width: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .gstv-shatrang-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+  }
+
+  .author-image-container {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 8px;
+  }
+
+  .author-info h4 {
+    font-size: 11px;
+    max-width: 100px;
+  }
+
+  .load-more-section {
+    padding: 30px 0;
+  }
+}
+
+/* Focus states for accessibility */
+.gstv-author-card:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+.load-more-btn:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}

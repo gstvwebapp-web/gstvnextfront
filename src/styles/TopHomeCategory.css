@@ -1,0 +1,117 @@
+/* TopHomeCategory Component Styles */
+.top-home-category {
+  padding: 20px 0;
+}
+
+.category-section {
+  margin-bottom: 40px;
+}
+
+/*.blogs-head-bar.first {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #850E00;
+}
+
+.blogs-head-bar.first h2 {
+  color: #850E00;
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0;
+  font-family: 'Noto Sans Gujarati', Arial, sans-serif;
+}
+
+.custom-link-btn {
+  color: #850E00;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.3s ease;
+}
+
+.custom-link-btn:hover {
+  color: #a61100;
+  text-decoration: none;
+}*/
+
+/* Grid components will handle the card styling */
+
+/* Loading and Error States */
+.loading-container {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #850E00;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  color: #666;
+  font-family: 'Noto Sans Gujarati', Arial, sans-serif;
+}
+
+.no-more-text {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-family: 'Noto Sans Gujarati', Arial, sans-serif;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .blogs-head-bar.first {
+    flex-direction: inherit;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .blogs-head-bar.first h2 {
+    font-size: 24px;
+  }
+  
+  .news-image {
+    height: 180px;
+  }
+  
+  .news-content h3 {
+    font-size: 14px;
+  }
+  
+  .news-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .news-image {
+    height: 160px;
+  }
+  
+  .news-content {
+    padding: 12px;
+  }
+  
+  .news-content h3 {
+    font-size: 13px;
+  }
+}

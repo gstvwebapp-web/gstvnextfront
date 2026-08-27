@@ -1,0 +1,320 @@
+/* =============================================
+   ACCESSIBILITY STYLES (WCAG 2.1 Compliance)
+   ============================================= */
+
+/* Skip to main content link - visible on focus */
+.skip-to-content-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #000;
+  color: #fff;
+  padding: 8px 12px;
+  text-decoration: none;
+  z-index: 9999;
+  border-radius: 0 0 4px 0;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.skip-to-content-link:focus {
+  top: 0;
+  left: 0;
+  outline: 3px solid #FFD700;
+  outline-offset: 2px;
+}
+
+/* Main content anchor */
+#main-content {
+  outline: none;
+}
+
+/* Focus visible states for better keyboard navigation */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #FFD700;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Dropdown menu keyboard navigation */
+.dropdown-menu a:focus-visible,
+.dropdown-menu button:focus-visible {
+  background-color: #e9ecef;
+  outline: 3px solid #FFD700;
+  outline-offset: -2px;
+}
+
+/* Category overlay - focus only */
+/* .category-overlay-text:focus {
+  outline: 3px solid #FFD700;
+  outline-offset: 2px;
+} */
+
+/* Image alt text loading state */
+img:not([alt]),
+img[alt=""] {
+  border: 2px solid #FF6B6B;
+}
+
+/* Decorative image handling */
+img[alt="decoration"],
+img[alt="decorative"] {
+  display: none;
+}
+
+/* Improved search icon contrast */
+.search-icon,
+.search-icon svg {
+  color: #333;
+  fill: #333;
+}
+
+/* E-paper icon and other informational icons */
+.epaper-icon,
+.news-icon,
+.video-icon,
+.info-icon {
+  color: #333;
+  fill: #333;
+}
+
+/* Link focus states */
+a {
+  position: relative;
+}
+
+/* a:focus {
+  outline: 3px solid #FFD700;
+  outline-offset: 2px;
+} */
+
+/* Form input focus states */
+/* input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+textarea:focus,
+select:focus {
+  outline: 3px solid #FFD700;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+} */
+
+/* Button focus states */
+/* button:focus,
+button:focus-visible {
+  outline: 3px solid #FFD700;
+  outline-offset: 2px;
+} */
+
+/* Mega menu keyboard navigation support */
+.mega-menu-item:focus-within .mega-menu-dropdown {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Improved color contrast for disabled states */
+button:disabled,
+input:disabled,
+select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Language toggle focus only */
+/* .language-toggle:focus {
+  outline: 3px solid #FFD700;
+  outline-offset: 2px;
+} */
+
+/* Notification badge focus */
+/* .notification-badge:focus {
+  outline: 3px solid #FFD700;
+  outline-offset: 2px;
+} */
+
+/* Video/audio player controls focus */
+/* .video-player-control:focus,
+.audio-player-control:focus {
+  outline: 3px solid #FFD700;
+  outline-offset: 2px;
+} */
+
+/* Aria-live region styling for screen readers */
+[aria-live="polite"],
+[aria-live="assertive"] {
+  position: relative;
+}
+
+/* Required field indicator focus */
+/* .form-field label.required:focus {
+  outline: 3px solid #FFD700;
+  outline-offset: 2px;
+} */
+
+/* Visually hidden but available to screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Dropdown arrow styling for clarity */
+.dropdown-toggle::after {
+  content: "▼";
+  margin-left: 8px;
+  font-size: 12px;
+}
+
+/* Loading spinner accessibility */
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+.loading-spinner[aria-label] {
+  position: relative;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Modal dialog accessibility */
+.modal {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  border: 3px solid #333;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.modal-close-button {
+  background: none;
+  border: 2px solid #666;
+  color: #333;
+  font-size: 24px;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+/* .modal-close-button:focus {
+  outline: 3px solid #FFD700;
+  outline-offset: 2px;
+} */
+
+/* Link focus state only - no color change */
+/* a[href]:focus {
+  outline: 3px solid #FFD700;
+  outline-offset: 2px;
+  border-radius: 2px;
+} */
+
+/* Error, Success, Warning messages - focus visible only, no text colors */
+.error-message,
+.form-error,
+.validation-error {
+  outline: 3px solid #FFD700;
+  outline-offset: 2px;
+}
+
+.success-message,
+.form-success {
+  outline: 3px solid #FFD700;
+  outline-offset: 2px;
+}
+
+.warning-message {
+  outline: 3px solid #FFD700;
+  outline-offset: 2px;
+}
+
+/* Heading and text focus states */
+h1:focus, h2:focus, h3:focus, h4:focus, h5:focus, h6:focus {
+  outline: 3px solid #FFD700;
+  outline-offset: 2px;
+} */
+
+/* Table focus states */
+/* table:focus,
+table th:focus,
+table td:focus {
+  outline: 3px solid #FFD700;
+  outline-offset: 2px;
+}
+
+/* List focus states */
+/* ul:focus, ol:focus, li:focus {
+  outline: 3px solid #FFD700;
+  outline-offset: 2px;
+} */
+
+/* Code block focus */
+/* code:focus, pre:focus {
+  outline: 3px solid #FFD700;
+  outline-offset: 2px;
+} */
+
+/* Blockquote focus */
+/* blockquote:focus {
+  outline: 3px solid #FFD700;
+  outline-offset: 2px;
+} */ 
+
+/* Improve focus management in complex layouts */
+.page-wrapper {
+  position: relative;
+}
+
+/* Responsive text sizing */
+@media (max-width: 768px) {
+  .skip-to-content-link {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible {
+    outline-width: 2px;
+    outline-offset: 1px;
+  }
+}
+
+/* Print accessibility */
+@media print {
+  .skip-to-content-link {
+    display: none;
+  }
+
+  a[href]::after {
+    content: " (" attr(href) ")";
+  }
+
+  a[href^="#"]::after {
+    content: "";
+  }
+}

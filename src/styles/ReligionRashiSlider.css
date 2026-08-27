@@ -1,0 +1,549 @@
+/* ═══════════════════════════════════════════════════════
+   Religion Rashi Video Slider Styles
+   ═══════════════════════════════════════════════════════ */
+
+/* Header Section - Matching WebStories style */
+.rashiSectionNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 0;
+}
+
+.rashiSectionNav-left a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  font-size: 18px;
+  font-family: 'Hind Vadodara', sans-serif;
+}
+
+.rashiSectionNav-left img {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+.rashiSectionNav-left span {
+  font-family: 'Hind Vadodara', sans-serif;
+}
+
+.rashiSectionNav-right .custom-link-btn {
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+/* "વધુ વાંચો" circle-arrow button — matches WebStories style */
+.rashi-more-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #850E00 !important;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0 !important;
+  background: none !important;
+  border-radius: 0 !important;
+  font-family: 'Hind Vadodara', sans-serif;
+}
+.rashi-more-link:hover { text-decoration: underline; }
+
+.rashi-more-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(133, 14, 0, 0.90);
+  border: 2px solid #b1974f;
+  color: #fff;
+  font-size: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.20);
+  transition: background 0.2s, transform 0.2s;
+  flex-shrink: 0;
+}
+.rashi-more-link:hover .rashi-more-btn {
+  background: rgba(133, 14, 0, 1);
+  transform: scale(1.1);
+  text-decoration: none;
+}
+
+/* Outer wrapper */
+.rashi-wrap {
+  width: 100%;
+  float: left;
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+/* Red-bordered box */
+.rashi-box {
+  /* border: 2px solid #850E00; */
+  border-radius: 10px;
+  overflow: hidden;
+  /* background: #800d00; */
+}
+
+/* Header with title */
+.rashi-header {
+  /* background: #850E00; */
+  /* padding: 12px 16px; */
+  padding-bottom: 10px;
+  /* border-bottom: 2px solid #b1974f; */
+}
+
+.rashi-title {
+  font-size: 18px;
+  font-weight: 700;
+  /* color: #fff; */
+  margin: 0;
+  /* text-align: center; */
+  font-family: 'Hind Vadodara', sans-serif;
+}
+
+/* Carousel inside box */
+ 
+
+/* Items container */
+.rashi-items {
+  display: flex;
+  align-items: stretch;
+  /* margin-bottom: 20px; */
+}
+
+/* Individual item */
+.rashi-item {
+  box-sizing: border-box;
+}
+
+/* Rashi card */
+.rashi-card {
+  border: 2px solid #850E00;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.rashi-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+/* ── Card Header: Rashi icon + info ────────────────────── */
+.rashi-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  background: #f9f9f9;
+  border-bottom: 1px solid #ddd;
+}
+
+.rashi-icon {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.rashi-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.rashi-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 2px;
+  font-family: 'Hind Vadodara', sans-serif;
+}
+
+.rashi-word {
+  font-size: 11px;
+  color: #666;
+  margin: 0;
+  font-family: 'Hind Vadodara', sans-serif;
+}
+
+/* ── Video Thumbnail ────────────────────── */
+.rashi-video-link {
+  display: block;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: #111;
+}
+
+.rashi-video-thumb {
+  position: relative;
+  width: 100%;
+  /* height: 190; */
+  background: #111;
+  overflow: hidden;
+}
+
+.rashi-video-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  display: block;
+}
+
+.rashi-video-link:hover .rashi-video-thumb img {
+  transform: scale(1.05);
+}
+
+/* Play icon */
+.rashi-play-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.rashi-play-icon i {
+  font-size: 35px;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  transition: transform 0.2s;
+}
+
+.rashi-card:hover .rashi-play-icon i {
+  transform: scale(1.12);
+}
+
+/* ── Video Title ────────────────────── */
+.rashi-video-title-link {
+  display: block;
+  padding: 8px;
+  background: #850E00;
+  text-decoration: none !important;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.rashi-video-title-link:hover {
+  background: #6a0b00;
+}
+
+.rashi-video-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff !important;
+  margin: 0;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-family: 'Hind Vadodara', sans-serif;
+}
+
+/* ── Navigation Buttons - Matching TopVideos/WebStories ────────────────────── */
+.rashi-wrap .leftLst,
+.rashi-wrap .rightLst {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  /* background: rgba(133, 14, 0, 0.9); */
+  border: 2px solid #b1974f;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  transition: all 0.3s ease;
+  color: white;
+  padding: 0;
+  font-size: 16px;
+}
+
+.rashi-wrap .leftLst:hover,
+.rashi-wrap .rightLst:hover {
+  /* background: rgba(133, 14, 0, 1); */
+  border-color: #850e00;
+  color: white;
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.rashi-wrap .leftLst.disabled-arrow,
+.rashi-wrap .rightLst.disabled-arrow,
+.rashi-wrap .leftLst:disabled,
+.rashi-wrap .rightLst:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: rgba(100, 100, 100, 0.6);
+  border-color: #ccc;
+  transform: translateY(-50%);
+}
+
+.rashi-wrap .leftLst.disabled-arrow:hover,
+.rashi-wrap .rightLst.disabled-arrow:hover,
+.rashi-wrap .leftLst:disabled:hover,
+.rashi-wrap .rightLst:disabled:hover {
+  background: rgba(100, 100, 100, 0.6);
+  border-color: #ccc;
+  color: white;
+  transform: translateY(-50%);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.rashi-wrap .leftLst {
+  left: -3px;
+}
+
+.rashi-wrap .rightLst {
+  right: -3px;
+}
+
+.rashi-wrap .leftLst i,
+.rashi-wrap .rightLst i {
+  font-size: 16px;
+}
+
+/* Remove old custom rashi button styles */
+.rashi-nav-btn {
+  display: none;
+}
+
+.rashi-nav-left,
+.rashi-nav-right {
+  display: none;
+}
+
+/* ── Responsive Design ────────────────────── */
+@media (max-width: 1300px) {
+  /* .rashi-video-thumb {
+    height: 130px;
+  } */
+
+  .rashi-card-header {
+    padding: 6px;
+    gap: 8px;
+  }
+
+  .rashi-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .rashi-name {
+    font-size: 12px;
+  }
+
+  .rashi-word {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 1000px) {
+  /* .rashi-video-thumb {
+    height: 120px;
+  } */
+
+  .rashi-card-header {
+    padding: 5px;
+    gap: 6px;
+  }
+
+  .rashi-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .rashi-name {
+    font-size: 11px;
+  }
+
+  .rashi-word {
+    font-size: 9px;
+  }
+
+  .rashi-play-icon i {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .rashi-title {
+    font-size: 16px;
+    /* padding: 10px 12px; */
+  }
+
+  .rashi-header {
+    padding: 0px 12px;
+  }
+
+  /* .rashi-video-thumb {
+    height: 140px;
+  } */
+
+  .rashi-card-header {
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .rashi-icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .rashi-name {
+    font-size: 12px;
+  }
+
+  .rashi-word {
+    font-size: 10px;
+  }
+
+  .rashi-video-title {
+    font-size: 10px;
+  }
+
+  .rashi-play-icon i {
+    font-size: 30px;
+  }
+
+  .rashi-video-title-link {
+    padding: 6px;
+  }
+}
+
+@media (max-width: 640px) {
+  .rashi-title {
+    font-size: 14px;
+  }
+
+  /* .rashi-video-thumb {
+    height: 130px;
+  } */
+
+  .rashi-card {
+    border-width: 1.5px;
+    border-radius: 6px;
+  }
+
+  .rashi-play-icon i {
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 480px) {
+  .rashi-wrap {
+    margin-bottom: 8px;
+  }
+
+  .rashi-box {
+    border-width: 2px;
+  }
+
+  .rashi-header {
+    padding: 8px 10px;
+  }
+
+  .rashi-title {
+    font-size: 13px;
+  }
+ 
+
+  .rashi-item {
+    padding: 2px !important;
+  }
+
+  /* .rashi-video-thumb {
+    height: 190px;
+  } */
+
+  .rashi-card-header {
+    padding: 6px;
+    gap: 6px;
+  }
+
+  .rashi-icon {
+    width: 35px;
+    height: 35px;
+  }
+
+  .rashi-name {
+    font-size: 10px;
+  }
+
+  .rashi-word {
+    font-size: 8px;
+  }
+
+  .rashi-video-title {
+    font-size: 9px;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+  }
+
+  .rashi-video-title-link {
+    padding: 5px;
+  }
+
+  .rashi-play-icon i {
+    font-size: 22px;
+  }
+
+  .rashi-nav-btn {
+    width: 26px;
+    height: 26px;
+    font-size: 14px;
+  }
+}
+
+/* Utility classes for carousel */
+.MultiCarousel {
+  position: relative;
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.MultiCarousel:active {
+  cursor: grabbing;
+}
+
+.MultiCarousel-inner {
+  display: flex;
+  transition: transform 0.3s ease;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* Disabled arrow state */
+.over {
+  cursor: not-allowed;
+}

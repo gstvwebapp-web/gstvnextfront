@@ -1,0 +1,284 @@
+/* Election Results Section Styles */
+
+.election-results-section {
+  width: 100%;
+  margin: 20px 0;
+  padding: 0;
+  float: left;
+}
+
+.election-loading {
+  text-align: center;
+  padding: 20px;
+  font-size: 16px;
+  color: #666;
+}
+
+/* Tabs Styling */
+#electionresults {
+  margin-bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#electionresults .nav-item {
+  margin-bottom: -2px;
+}
+
+#electionresults .nav-link {
+  border: 1px solid transparent;
+  border-radius: 0.25rem 0.25rem 0 0;
+  padding: 10px 20px;
+  color: #495057;
+  background-color: #f8f9fa;
+  margin-right: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Hind Vadodara", sans-serif;
+  font-weight: 500;
+}
+
+#electionresults .nav-link:hover {
+  border-color: #e9ecef #e9ecef #dee2e6;
+  background-color: #e9ecef;
+}
+
+#electionresults .nav-link.active {
+  color: #fff;
+  background-color: #850E00;
+  border-color: #850E00 #850E00 #fff;
+}
+
+/* Election Box */
+.electionbox {
+  margin-bottom: 0px;
+  background: #fff;
+  padding: 10px;
+  border: 1px solid #dee2e6;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+}
+
+/* Chart Section */
+.chart-section {
+  float: left;
+  padding: 15px;
+}
+
+.chart-section h3 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.chart-section h4 {
+  font-size: 18px;
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 0px;
+  text-align: center;
+}
+
+/* Table Styling */
+.table-bordered {
+  border: 1px solid #dee2e6;
+}
+
+.table-bordered thead th {
+  background-color: #ebd2b93b;
+  color: #000;
+  font-weight: 600;
+  text-align: center;
+  padding: 5px 10px;
+  border: 1px solid #dee2e6;
+}
+
+.table-bordered tbody td {
+  padding: 5px 10px;
+  text-align: center;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.table-bordered tbody tr td:first-child {
+  text-align: left;
+}
+
+/* Dot Indicator */
+.dot {
+  height: 10px;
+  width: 10px;
+  display: inline-block;
+  border-radius: 50%;
+  margin-right: 8px;
+  border: 2px solid #fff;
+}
+
+/* Star Candidates Section */
+.candidate-card {
+  display: flex;
+  align-items: center;
+
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.candidate-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.candidate-card img {
+  width: 80px;
+  height: 80px;
+
+}
+
+.candidate-details {
+  padding-left: 15px;
+  text-align: left;
+  flex: 1;
+}
+
+.candidate-details h5 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.candidate-details p {
+  font-size: 14px;
+  color: #666;
+  margin: 5px 0;
+  line-height: 1.5;
+}
+
+.candidate-details .badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-top: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+  .chart-section {
+    float: none;
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  #stateTabs .nav-link {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+
+  .chart-section h3 {
+    font-size: 20px;
+  }
+
+  .chart-section h4 {
+    font-size: 16px;
+  }
+
+  .electionbox {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  #stateTabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #stateTabs .nav-link {
+    white-space: nowrap;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .candidate-card {
+    padding: 12px;
+  }
+
+  .candidate-card img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .candidate-details h5 {
+    font-size: 16px;
+  }
+
+  .candidate-details p {
+    font-size: 13px;
+  }
+
+  .table-bordered thead th,
+  .table-bordered tbody td {
+    padding: 8px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 576px) {
+  .electionbox {
+    padding: 10px;
+  }
+
+  .chart-section h3 {
+    font-size: 18px;
+  }
+
+  .chart-section h4 {
+    font-size: 14px;
+  }
+
+  #stateTabs .nav-link {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  
+}
+
+/* Animation */
+.tab-pane {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Chart Container */
+.chart-section > div {
+  position: relative;
+  margin: 20px auto;
+}
+
+/* Loading State */
+.election-loading p {
+  font-family: "Hind Vadodara", sans-serif;
+  font-size: 16px;
+  color: #666;
+}
+

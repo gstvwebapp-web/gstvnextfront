@@ -1,0 +1,221 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { API_V5_BASE_URL } from '@/constants/api';
+
+interface LiveNewsItem {
+  livetitle: string;
+  livenewsdate: string;
+  lid?: number;
+}
+
+interface LiveNewsData {
+  id: number;
+  slug: string;
+  title: string;
+  featureImage: string;
+  videoURL: string | null;
+  description: string;
+  created_at: string;
+  news_id: number;
+  live: LiveNewsItem[];
+  max_lid: number;
+  catID: string;
+  category_slugs: string;
+}
+
+interface LiveNewsResponse {
+  livenews: LiveNewsData[];
+}
+
+const LiveNews: React.FC = () => {
+  const [liveNewsData, setLiveNewsData] = useState<LiveNewsData[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchLiveNews();
+  }, []);
+
+  // Load LiveCast scripts on mount
+  useEffect(() => {
+    // Load IMA SDK
+    const imaScript = document.createElement('script');
+    imaScript.src = 'https://imasdk.googleapis.com/js/sdkloader/ima3.js';
+    imaScript.async = true;
+    document.head.appendChild(imaScript);
+
+    // Load LiveCast Player
+    const playerScript = document.createElement('script');
+    playerScript.src = 'https://playerlivecast.peanutsquare.com/dist/js/livecast_player.min.js';
+    playerScript.async = true;
+    document.head.appendChild(playerScript);
+
+    // Load LiveCast Embed Script
+    const embedScript = document.createElement('script');
+    embedScript.src = 'https://www.livecast.in/embed/embed-script.js';
+    embedScript.async = true;
+    embedScript.onload = () => {
+      console.log('✅ LiveCast embed script loaded');
+      // Wait a bit then trigger processing
+      setTimeout(() => {
+        if ((window as any).LC && (window as any).LC.embed && typeof (window as any).LC.embed.reload === 'function') {
+          (window as any).LC.embed.reload();
+          console.log('✅ LC.embed.reload() triggered');
+        }
+      }, 800);
+    };
+    document.head.appendChild(embedScript);
+
+    return () => {
+      try {
+        if (document.head.contains(imaScript)) document.head.removeChild(imaScript);
+        if (document.head.contains(playerScript)) document.head.removeChild(playerScript);
+        if (document.head.contains(embedScript)) document.head.removeChild(embedScript);
+      } catch (e) {
+        // Ignore cleanup errors
+      }
+    };
+  }, []);
+
+  const fetchLiveNews = async () => {
+    try {
+      setLoading(true);
+
+      const response = await fetch(`${API_V5_BASE_URL}/topnewsweb`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        mode: 'cors',
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data: LiveNewsResponse = await response.json();
+      setLiveNewsData(data.livenews || []);
+    } catch (err) {
+      console.error('🔴 Error fetching live news:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getCategorySlug = (categorySlugs: string): string => {
+    const categorySlugs1 = categorySlugs.replace(/,/g, '/');
+    return categorySlugs1.split('/')[0];
+  };
+
+  const getImageUrl = (newsItem: LiveNewsData): string => {
+    if (newsItem.featureImage && newsItem.featureImage !== '') {
+      const featureImage = newsItem.featureImage;
+      const fileExtension = featureImage.split('.').pop()?.toLowerCase() || '';
+
+      if (newsItem.videoURL && newsItem.videoURL !== '') {
+        return featureImage;
+      } else {
+        const regex = new RegExp(`\\.${fileExtension}$`, 'i');
+        return featureImage.replace(regex, `_small.${fileExtension}`);
+      }
+    } else {
+      if (newsItem.videoURL && newsItem.videoURL !== '') {
+        const featureImage = newsItem.videoURL;
+        const fileExtension = featureImage.split('.').pop()?.toLowerCase() || '';
+        const regex = new RegExp(`\\.${fileExtension}$`, 'i');
+        return featureImage.replace(regex, '_video.webp');
+      }
+    }
+
+    return '/assets/images/gstv-logo-bg.png';
+  };
+
+  const formatTime = (dateString: string): string => {
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      });
+    } catch (error) {
+      return '';
+    }
+  };
+
+  const getUniqueLiveData = (liveData: LiveNewsItem[]): LiveNewsItem[] => {
+    const uniqueData: { [key: string]: LiveNewsItem } = {};
+
+    if (Array.isArray(liveData)) {
+      liveData.forEach((item) => {
+        const key = item.lid ? item.lid.toString() : `${item.livetitle}_${item.livenewsdate}`;
+        if (!uniqueData[key]) {
+          uniqueData[key] = item;
+        }
+      });
+    }
+
+    return Object.values(uniqueData);
+  };
+
+  if (!liveNewsData || liveNewsData.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="blogs-main-section livetvmobcls" style={{ float: 'left', width: '100%', marginTop: '20px' }}>
+      <div className="row blog-content liveNewsHblock">
+        {liveNewsData.map((newsItem) => {
+          const categorySlug = getCategorySlug(newsItem.category_slugs);
+          const imageUrl = getImageUrl(newsItem);
+          const uniqueLiveData = getUniqueLiveData(newsItem.live);
+
+          return (
+            <React.Fragment key={newsItem.id}>
+              <div className="col-lg-6 column">
+                <div className="hover-image" style={{ minHeight: '200px' }}>
+                  {/* LiveCast Player Embed */}
+                  <div className="lc-embed-responsive lc-embed-responsive-16by9" style={{ minHeight: '200px', background: '#000', position: 'relative', overflow: 'hidden' }}>
+                    <div className="livecast_player" style={{ width: '100%', height: '100%' }}>
+                      <div
+                        className="livecast_player_eb cid_21_stream_24_gstv"
+                        style={{
+                          height: '100%',
+                          width: '100%',
+                          minHeight: '300px',
+                          display: 'block',
+                          backgroundColor: '#000'
+                        }}
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-lg-6 column">
+                <h4>
+                  <span><em>લાઇવ</em></span>{' '}
+                  <Link href={`/news/${categorySlug}/${newsItem.slug}`}>
+                    {newsItem.title}
+                  </Link>
+                </h4>
+
+                <div className="row liveNewsAddSectionhome">
+                  {uniqueLiveData.slice(0, 3).map((liveItem, index) => (
+                    <div key={index} className="col-lg-12 colLeft d-flex">
+                      <h6>{formatTime(liveItem.livenewsdate)}</h6>
+                      <h4>{liveItem.livetitle}</h4>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </React.Fragment>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+export default LiveNews;

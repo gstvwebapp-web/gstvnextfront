@@ -1,0 +1,939 @@
+/* =========================
+   Desktop Menu
+========================= */
+
+.desktop-top-menu {
+    width: 100%;
+    background: #fff;
+    border-top: 1px solid #ececec;
+    border-bottom: 1px solid #ececec;
+    box-shadow: 0 2px 8px rgba(0,0,0,.05);
+    position: fixed;
+    z-index: 1000;
+}
+
+.desktop-menu-scroll {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 22px;
+
+    height: 54px;
+
+    padding: 0 20px;
+
+    overflow-x: auto;
+    overflow-y: visible;
+    white-space: nowrap;
+
+    scrollbar-width: none;
+}
+
+.desktop-menu-scroll::-webkit-scrollbar{
+    display:none;
+}
+
+/* Home */
+
+.menu-home{
+    color:#850e00;
+    font-size:22px;
+    transition:.3s;
+}
+
+.menu-home:hover{
+    color:#850e00;
+}
+
+/* Item */
+
+.desktop-menu-item{
+    position:relative;
+    flex-shrink:0;
+}
+
+/* Link */
+
+.desktop-menu-link{
+    color:#24364B;
+    text-decoration:none;
+    font-size:16px;
+    font-weight:600;
+    padding:16px 0;
+    transition:.25s;
+    position:relative;
+}
+
+/* Hover */
+
+.desktop-menu-link:hover{
+    color:#850e00;
+}
+
+/* Active */
+
+.desktop-menu-link.active{
+    color:#850e00;
+}
+
+/* Underline Animation */
+
+.desktop-menu-link::after{
+    content:'';
+    position:absolute;
+    left:0;
+    bottom:8px;
+    width:0%;
+    height:2px;
+    background:#850e00;
+    transition:.3s;
+}
+
+.desktop-menu-link:hover::after,
+.desktop-menu-link.active::after{
+    width:100%;
+}
+
+/* Dropdown — fixed position (renders outside scroll container) */
+
+.desktop-submenu-fixed {
+    position: fixed;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(140px, 1fr));
+    gap: 2px;
+    min-width: 440px;
+    max-height: 70vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    background: #fff;
+    border-radius: 10px;
+    padding: 12px 8px;
+    box-shadow: 0 12px 36px rgba(0,0,0,.14);
+    z-index: 99999;
+    list-style: none;
+    margin: 0;
+}
+
+.desktop-submenu-fixed li a {
+    display: block;
+    padding: 8px 14px;
+    color: #24364B;
+    text-decoration: none;
+    transition: .2s;
+    font-size: 15px;
+    border-radius: 6px;
+    white-space: nowrap;
+    font-family: 'Hind Vadodara', sans-serif;
+}
+
+.desktop-submenu-fixed li a:hover {
+    background: #F8F4EF;
+    color: #D71920;
+}
+
+/* Dropdown */
+
+.desktop-submenu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    display: none;
+    background: #fff;
+    border-radius: 10px;
+    padding: 12px 8px;
+    box-shadow: 0 12px 36px rgba(0,0,0,.14);
+    z-index: 99999;
+    grid-template-columns: repeat(3, minmax(140px, 1fr));
+    gap: 2px;
+    min-width: 440px;
+}
+
+.desktop-menu-item:hover .desktop-submenu {
+    display: grid;
+}
+
+.desktop-submenu li {
+    list-style: none;
+}
+
+.desktop-submenu li a {
+    display: block;
+    padding: 8px 14px;
+    color: #24364B;
+    text-decoration: none;
+    transition: .2s;
+    font-size: 15px;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+
+.desktop-submenu li a:hover {
+    background: #F8F4EF;
+    color: #D71920;
+}
+
+/* "વધુ" More Menu Button */
+
+.more-menu-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'Hind Vadodara', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+/* Strip "વધુ" button — same style as strip links */
+.more-strip-btn {
+    background: none;
+    border: none;
+    border-right: 1px solid #ddd;
+    cursor: pointer;
+    font-family: 'Hind Vadodara', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #850e00;
+    padding: 0 14px;
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    flex-shrink: 0;
+}
+
+.more-strip-btn:hover {
+    color: #D71920;
+}
+
+/* Strip more dropdown — single column */
+.more-strip-dropdown {
+    grid-template-columns: repeat(2, minmax(120px, 1fr)) !important;
+    min-width: 260px !important;
+    max-height: 70vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+}
+
+/* More dropdown — fixed position, 2-column grid */
+.more-dropdown-fixed {
+    grid-template-columns: repeat(2, minmax(130px, 1fr)) !important;
+    min-width: 300px !important;
+    right: auto;
+}
+
+/* Row 2 — Subcategory horizontal strip */
+
+.desktop-subcat-strip {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    height: 40px;
+    padding: 0 0px;
+    background: #fff;
+    border-top: 1px solid #ececec;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    scrollbar-width: none;
+}
+
+.desktop-subcat-strip::-webkit-scrollbar {
+    display: none;
+}
+
+/* Gujarat label at start of strip */
+.strip-category-label {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 14px 0 0;
+    margin-right: 6px;
+    border-right: 2px solid #c8a84b;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.strip-gujarat-icon {
+    width: auto;
+    height: 25px;
+    object-fit: contain;
+    display: block;
+    padding-left: 16px;
+}
+
+.subcat-strip-link {
+    color: #24364B;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 0 14px;
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+    border-right: 1px solid #ddd;
+    transition: color .2s, background .2s;
+    white-space: nowrap;
+    font-family: 'Hind Vadodara', sans-serif;
+}
+
+.subcat-strip-link:first-child {
+    padding-left: 0;
+}
+
+.subcat-strip-link:hover {
+    color: #D71920;
+}
+
+.subcat-strip-link.active {
+    color: #D71920;
+    font-weight: 600;
+}
+
+/* Arrow on menu items that have subcategories */
+.sub-arrow {
+    font-size: 9px;
+    margin-left: 4px;
+    vertical-align: middle;
+    opacity: 0.6;
+}
+
+.desktop-menu-item.hovered .desktop-menu-link {
+    color: #850e00;
+}
+
+/* Dynamic Sidebar Styles */
+
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 50px;
+  height: 100vh;
+  background: #fff;
+  border-right: 1px solid #e0e0e0;
+  z-index: 0;
+  overflow-y: auto;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.mobilemenucls {
+  z-index: 9999;
+  background: #fff;
+}
+
+.nav-list.custom-sidebar {
+  padding: 0;
+  margin: 0;
+}
+
+.nav-list.custom-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-list.custom-sidebar li {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* Category Item Container */
+.category-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  background: #fff;
+  transition: background-color 0.2s ease;
+}
+
+.category-item:hover {
+  background: #f8f9fa;
+}
+
+/* Category Link */
+.category-link {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  text-decoration: none;
+  color: #333;
+  flex: 1;
+  transition: all 0.2s ease;
+}
+
+.category-link:hover {
+  color: #dc3545;
+  text-decoration: none;
+}
+
+.category-link img,
+.category-link i {
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.category-link span {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Submenu Toggle Button */
+.submenu-toggle {
+  background: none;
+  border: none;
+  padding: 12px 15px;
+  cursor: pointer;
+  color: #666;
+  transition: all 0.2s ease;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submenu-toggle:hover {
+  color: #dc3545;
+  background: rgba(220, 53, 69, 0.1);
+}
+
+.submenu-toggle i {
+  font-size: 12px;
+  transition: transform 0.2s ease;
+}
+
+/* Submenu Styles */
+.submenu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: #f8f9fa;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.2s ease;
+  opacity: 0;
+}
+
+.submenu.show {
+  max-height: 500px; /* Adjust based on expected number of subcategories */
+  opacity: 1;
+  overflow: auto;
+}
+
+.subcategory-item {
+  border-bottom: 1px solid #e9ecef;
+}
+
+.subcategory-item:last-child {
+  border-bottom: none;
+}
+
+/* Subcategory Link */
+.subcategory-link {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px 10px 35px; /* Extra left padding for indentation */
+  text-decoration: none;
+  color: #555;
+  transition: all 0.2s ease;
+  font-size: 13px;
+}
+
+.subcategory-link:hover {
+  color: #dc3545;
+  background: #e9ecef;
+  text-decoration: none;
+}
+
+.subcategory-link img,
+.subcategory-link i {
+  margin-right: 8px;
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.subcategory-link span {
+  font-weight: 400;
+  font-size: 14px;
+}
+
+/* Loading and Error States */
+.allcatshow div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mobile Menu Overlay */
+.mobile-menu-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Mobile Menu Header */
+.mobile-menu-header {
+  display: none;
+  align-items: center;
+  padding: 15px 20px;
+  background: #f9f2e0;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.mobile-menu-header .back-arrow {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+.mobile-menu-header .menu-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #5B0400;
+  font-family: 'Hind Vadodara', sans-serif;
+  
+}
+.download-btn a {
+    display: inline-block;
+    /* margin-right: 15px;
+    margin-bottom: 10px; */
+  }
+ 
+
+.download-btn > a:last-child {
+  margin-right: 0;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .mobile-menu-overlay {
+    display: block;
+  }
+  .nav-list.custom-sidebar {
+    padding-left: 10% !important;
+    margin: -3px 0 0 0 !important;
+    display: inline-table;
+  }
+  .mobile-menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100vh;
+    background: white;
+    z-index: 9999;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+  }
+
+  .sidebar.active {
+    left: 0;
+  }
+
+  .mobile-menu-header {
+    display: flex;
+  }
+
+  .nav-list {
+    padding-top: 0;
+  }
+
+  /* Category styling for mobile */
+  .category-item {
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .category-link {
+    padding: 15px 20px;
+    font-size: 16px;
+    flex: 1;
+  }
+
+  .category-link img {
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+  }
+
+  .submenu-toggle {
+    padding: 15px 20px;
+    border: none;
+    background: none;
+    color: #666;
+    min-width: 50px;
+  }
+
+  .submenu.show {
+    display: block;
+    max-height: none;
+    background: #f8f9fa;
+    opacity: 1;
+  }
+
+  .subcategory-link {
+    padding: 12px 20px 12px 56px;
+    font-size: 14px;
+    color: #666;
+  }
+
+  .subcategory-link img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+
+  /* Download app section styling for mobile */
+  .download-app {
+    padding: 0px;
+    border-top: none;
+    margin-top: 0px;
+  }
+
+  .download-app h6 {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #333;
+    font-family: 'Hind Vadodara', sans-serif;
+  }
+
+  .download-btn a {
+    display: inline-block;
+    /* margin-right: 15px;
+    margin-bottom: 10px; */
+  }
+ 
+
+.download-btn > a:last-child {
+  margin-right: 0;
+}
+
+  .socila-media {
+    margin-top: 15px;
+  }
+
+  .socila-media a {
+    display: inline-block;
+    margin-right: 15px;
+    font-size: 20px;
+    color: #666;
+  }
+}
+
+/* Active Category Highlighting */
+.category-link.active,
+.subcategory-link.active {
+  background: #fbf4ed;
+  color: #fff;
+}
+
+.category-link.active:hover,
+.subcategory-link.active:hover {
+  background: #fbf4ed;
+  color: #fff;
+}
+
+/* Smooth Animations */
+.category-item,
+.subcategory-item {
+  transition: all 0.2s ease;
+}
+
+/* Custom Scrollbar for Sidebar */
+.nav-list.custom-sidebar.scrollarea {
+  scrollbar-width: none;
+  scrollbar-color:#d9bb63 #f1f1f1;
+}
+.submenu.show::-webkit-scrollbar {
+  width: 2px;
+}
+
+.nav-list.custom-sidebar.scrollarea::-webkit-scrollbar {
+  width: 2px;
+}
+
+.nav-list.custom-sidebar.scrollarea::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.nav-list.custom-sidebar.scrollarea::-webkit-scrollbar-thumb {
+  background: #dc3545;
+  border-radius: 3px;
+}
+
+.nav-list.custom-sidebar.scrollarea::-webkit-scrollbar-thumb:hover {
+  background: #c82333;
+}
+
+/* Mobile Sidebar Menu - Exact Match from Video */
+.mobile-sidebar-menu {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100vh;
+  background: #ffffff;
+  z-index: 9999;
+  transition: left 0.3s ease-in-out;
+  overflow-y: auto;
+  display: none;
+}
+
+.mobile-sidebar-menu.active {
+  left: 0;
+  padding: 0;
+}
+
+.mobile-menu-header {
+  display: flex;
+  align-items: center;
+  padding: 5px 20px;
+  background: #f9f2e0;
+  border-bottom:1px solid #D3B55F;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  min-height: 60px;
+}
+
+.back-arrow-btn {
+  background: none;
+  border: none;
+  padding: 8px;
+  /* margin-right: 15px; */
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+.back-arrow {
+  width: 24px;
+  height: 24px;
+}
+
+.menu-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  font-family: 'Hind Vadodara', sans-serif;
+}
+
+.mobile-menu-content {
+  padding: 0;
+}
+
+.mobile-menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mobile-menu-item {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.mobile-category-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+}
+
+.mobile-category-link {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  font-weight: 400;
+  flex: 1;
+  transition: all 0.2s ease;
+  font-family: 'Hind Vadodara', sans-serif;
+}
+
+.mobile-category-link:hover {
+  background-color: #f8f9fa;
+  color: #333;
+  text-decoration: none;
+}
+
+.mobile-category-link.active {
+  background-color: #fbf4ed;
+  color: #333;
+}
+.allcatshow a { color: #333; font-weight: 400;
+}
+
+.mobile-category-link img {
+  width: 24px;
+  height: 24px;
+  margin-right: 15px;
+  object-fit: contain;
+}
+
+.mobile-category-link i {
+  width: 24px;
+  height: 24px;
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.mobile-submenu-toggle {
+  background: none;
+  border: none;
+  padding: 12px 20px;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.mobile-submenu-toggle:hover {
+  color: #dc3545;
+}
+
+.mobile-submenu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: #f8f9fa;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.mobile-submenu.show {
+  max-height: 500px;
+  overflow: auto;
+}
+
+.mobile-subcategory-item {
+  width: 50%;
+  float: left;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.mobile-subcategory-item:last-child {
+  border-bottom: none;
+}
+
+.mobile-subcategory-link {
+  display: flex;
+  align-items: center;
+  padding: 10px 0px 10px 20px;
+  text-decoration: none;
+  color: #555;
+  font-size: 15px;
+  font-weight: 400;
+  transition: all 0.2s ease;
+  font-family: 'Hind Vadodara', sans-serif;
+}
+
+.mobile-subcategory-link:hover {
+  background-color: #e9ecef;
+  color: #dc3545;
+  text-decoration: none;
+}
+
+.mobile-subcategory-link.active {
+  background-color: #dc3545;
+  color: white;
+}
+
+.mobile-subcategory-link img {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  object-fit: contain;
+}
+
+.mobile-subcategory-link i {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+.mobile-header-menu {
+    display: none !important;
+  }
+ .nav-item.nav-link.loginclsheader:hover{
+    border-bottom: 0px;
+    color: transparent;
+  }
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .mobile-header-menu {
+    display: block !important;
+  }
+  .mobile-sidebar-menu {
+    display: block;
+  }
+  .MultiCarousel {
+    margin-bottom: 0px;
+  }
+  .nav-list.custom-sidebar {
+    padding-left: 10% !important;
+      margin: 0px 0 0 0 !important;
+      display: inline-table;
+      max-width: 100% !important;
+      background: #fff;
+  }
+}
+
+/* Responsive adjustments for very small screens */
+@media (max-width: 360px) {
+  .MultiCarousel {
+    margin-bottom: 20px;
+  }
+  .mobile-category-link {
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .mobile-subcategory-link {
+    padding: 10px 0 10px 15px;
+    font-size: 14px;
+  }
+  .nav-list.custom-sidebar {
+    padding-left: 10% !important;
+    margin: -3px 0 0 0 !important;
+    display: inline-table;
+    
+  }
+  .menu-title {
+    font-size: 16px;
+  }
+}

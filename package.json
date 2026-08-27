@@ -1,0 +1,40 @@
+{
+  "name": "gstvnext",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3004",
+    "build": "next build",
+    "start": "next start -p 3004",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "@tinymce/tinymce-react": "^6.3.0",
+    "bootstrap": "^5.3.7",
+    "chart.js": "^4.5.1",
+    "chartjs-plugin-datalabels": "^2.2.0",
+    "dompurify": "^3.3.1",
+    "next": "^14.2.35",
+    "react": "^18.2.0",
+    "react-cookie-consent": "^10.0.1",
+    "react-dom": "^18.2.0",
+    "react-icons": "^5.5.0",
+    "sitemap": "^7.1.1",
+    "swiper": "^11.2.10",
+    "tinymce": "^8.1.2",
+    "yahoo-finance2": "^3.11.2"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/chart.js": "^4.0.1",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.3.5",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,379 @@
+/**
+ * Profile Dropdown/Sidebar Styles
+ * Works with existing JavaScript: .active class and slide-in body class
+ */
+
+/* Profile Box Styles */
+.userPbox {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.userPbox:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+    color: inherit;
+}
+
+.userImage {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.userImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.userName {
+    font-weight: 500;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 120px;
+    color: #333;
+}
+
+/* Profile Dropdown Styles - Works with your existing .active class */
+.profileTopBox {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 350px;
+    height: 100vh;
+    background: #ffffff;
+    box-shadow: -5px 0 25px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Active state - triggered by your JavaScript */
+.profileTopBox.active {
+    transform: translateX(0);
+}
+
+/* Overlay effect when profile is open */
+body.slide-in::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+/* Prevent body scroll when profile is open */
+body.slide-in {
+    overflow: hidden;
+}
+
+/* Profile Header */
+.profileTitle {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    background: #f8f9fa;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    min-height: 70px;
+}
+
+#backProfile {
+    background: none;
+    border: none;
+    padding: 10px;
+    margin-right: 15px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#backProfile:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+#backProfile img {
+    width: 24px;
+    height: 24px;
+}
+
+.profileTitle .title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    flex: 1;
+}
+
+/* User Navigation */
+.userNav {
+    padding: 20px 0;
+}
+
+.userNav a {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid #f0f0f0;
+    position: relative;
+}
+
+.userNav a:hover {
+    background-color: #f8f9fa;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.userNav a:last-child {
+    border-bottom: none;
+}
+
+/* User Profile Box in Nav */
+.userNav .userPbox.for-sm {
+    background: #f8f9fa;
+    margin: 0 20px 20px 20px;
+    border-radius: 12px;
+    padding: 16px;
+    border-bottom: none;
+}
+
+.userNav .userPbox.for-sm:hover {
+    background: #e9ecef;
+}
+
+.userNav .userPbox.for-sm .userImage {
+    width: 60px;
+    height: 60px;
+}
+
+.userNav .userPbox.for-sm .userName {
+    font-size: 16px;
+    font-weight: 600;
+    max-width: none;
+    color: #333;
+}
+
+/* Icon Box */
+.iconBox {
+    width: 28px;
+    height: 28px;
+    margin-right: 15px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 123, 255, 0.1);
+    border-radius: 6px;
+}
+
+.iconBox img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
+}
+
+/* User Nav Label */
+.userNavLable {
+    font-size: 14px;
+    font-weight: 500;
+    flex: 1;
+    color: #333;
+}
+
+.upText {
+    color: #28a745;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+/* Overlay */
+.profile-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.profile-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Body scroll lock */
+body.profile-open,
+body.menu-open {
+    overflow: hidden;
+}
+
+/* Menu Overlay */
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .profileTopBox {
+        width: 100%;
+        max-width: 350px;
+    }
+    
+    .userName {
+        max-width: 80px;
+        font-size: 12px;
+    }
+    
+    .userImage {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+@media (max-width: 480px) {
+    .profileTopBox {
+        width: 100vw;
+        max-width: none;
+    }
+    
+    .profileTitle {
+        padding: 15px;
+    }
+    
+    .userNav a {
+        padding: 15px 20px;
+    }
+    
+    .userNavLable {
+        font-size: 13px;
+    }
+}
+
+/* Menu Top Box (Category Menu) */
+.menuTopBox {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 320px;
+    height: 100vh;
+    background: #ffffff;
+    box-shadow: -2px 0 20px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow-y: auto;
+}
+
+.menuTopBox.active {
+    transform: translateX(0);
+}
+
+#backmenu {
+    background: none;
+    border: none;
+    padding: 8px;
+    margin-right: 12px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+}
+
+#backmenu:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+#backmenu img {
+    width: 20px;
+    height: 20px;
+}
+
+/* Animation for smooth transitions */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.profileTopBox.active {
+    animation: slideInRight 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Custom scrollbar for profile dropdown */
+.profileTopBox::-webkit-scrollbar {
+    width: 6px;
+}
+
+.profileTopBox::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.profileTopBox::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.profileTopBox::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}

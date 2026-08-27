@@ -1,0 +1,190 @@
+.video-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0;
+  background-color: #000;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.video-player {
+  width: 100%;
+  height: auto;
+}
+.video-controls {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 35px 10px 15px 10px;
+  background-image: linear-gradient(#00000000, #00000096, #000);
+  box-sizing: border-box;
+}
+.control-button {
+  cursor: pointer;
+  margin: 0 5px;
+}
+.progress-container {
+  flex: 1;
+  margin: 0 10px;
+  position: relative;
+}
+.progress-bar {
+  width: 100%;
+  height: 5px;
+  background: #555;
+  position: relative;
+}
+.progress {
+  height: 100%;
+  background: #f00;
+  width: 0;
+}
+.time {
+  font-size: 12px;
+}
+.speed-button {
+  margin-left: 0;
+}
+
+
+.video-container {
+  max-width: 480px;
+}
+.vcInner {
+  position: relative;
+  width: 100%;
+  height: 82px;
+}
+.toggleMutecls {
+  background: url(../images/video-sound.svg) no-repeat 0 0;
+  display: block;
+  width: 22px;
+  height: 22px;
+  text-indent: -999em;
+
+}
+.progress-container {
+  margin: 0 40px;
+}
+.toggleMutecls.active {
+  background: url(../images/video-mute.svg) no-repeat 0 0;
+}
+span.current-time {
+  position: absolute;
+  left: -37px;
+  top: -6px;
+}
+span.duration {
+  position: absolute;
+  right: -37px;
+  top: -5px;
+}
+
+div.togglePlayPausecls {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -13px;
+}
+.toggleMutecls {
+  position: absolute;
+  right: 19px;
+  bottom: 2px;
+}
+div.VideoBackcls {
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  margin-left: -58px;
+}
+.VideoFordcls {
+  position: absolute;
+  right: 50%;
+  bottom: -3px;
+  margin-right: -58px;
+}
+.progress-container {
+  position: relative;
+  top: 20px;
+}
+.container-controler {
+  position: absolute;
+  bottom: 11px;
+  width: 100%;
+  height: 27px;
+}
+.speed-button {
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+}
+.progress-bar {
+  height: 2px;
+  background: #fff;
+}
+.progress {
+  background: #f89c1d;
+}
+select.speed-control {
+  outline: none;
+  border-radius: 17px;
+  padding: 2px;
+}
+
+@media (min-width: 1023px) {
+      .swiper-slide, .swiper-vertical>.swiper-wrapper {
+          max-height: 660px;
+      }
+      .videoOuter .swiper-slide .innerbox {
+          max-width: 360px;
+      }
+
+}
+@media screen and (max-width: 1380px), screen and (max-height: 767px) {
+  .swiper-slide, .swiper-vertical>.swiper-wrapper {
+      max-height: 590px;
+  }
+  .videoOuter .swiper-slide .innerbox {
+      max-width: 310px;
+  }
+
+}
+@media screen and (max-width: 480px) {
+  .swiper-slide, .swiper-vertical>.swiper-wrapper {
+      max-height: 590px;
+  }
+  .videoOuter .swiper-slide .innerbox {
+      max-width: 100%;
+  }
+  .shareVideo {
+    display: none;
+  }
+}
+.range-container {
+  position: absolute;
+  top: 50%;
+  left: 0; /* Start from the left edge of the progress bar */
+  width: 100%;
+  height: 100%;
+  cursor: pointer; /* Show a pointer cursor to indicate interactiveness */
+}
+
+.range-icon {
+  position: absolute;
+  top: 50%;
+  width: 10px; /* Adjust the width as needed */
+  height: 10px; /* Adjust the height as needed */
+  background-color: #f89c1d; /* Color of the range icon */
+  border-radius: 50%; /* Make it round */
+  transform: translate(-50%, -50%); /* Center it vertically */
+  cursor: pointer; /* Show a pointer cursor to indicate interactiveness */
+}
+.swiper-pagination-vertical.swiper-pagination-bullets, .swiper-vertical>.swiper-pagination-bullets { display:none; }

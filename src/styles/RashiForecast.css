@@ -1,0 +1,386 @@
+/* ═══════════════════════════════════════════════════════
+   Rashi Forecast - Today's Horoscope Grid
+   ═══════════════════════════════════════════════════════ */
+
+/* Section Container */
+.rashi-forecast-section {
+  width: 100%;
+  float: left;
+  margin-bottom: 20px;
+}
+
+/* Header Section - Matching ReligionRashiSlider style */
+.forecastSectionNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 0;
+}
+
+.forecastSectionNav-left a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  font-size: 18px;
+  font-family: 'Hind Vadodara', sans-serif;
+}
+
+.forecastSectionNav-left img {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+.forecastSectionNav-left span {
+  font-family: 'Hind Vadodara', sans-serif;
+}
+
+.forecastSectionNav-right .custom-link-btn {
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+/* "વધુ વાંચો" circle-arrow button — matches WebStories/Rashi style */
+.forecast-more-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #850E00 !important;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0 !important;
+  background: none !important;
+  border-radius: 0 !important;
+  font-family: 'Hind Vadodara', sans-serif;
+}
+.forecast-more-link:hover { text-decoration: underline; }
+
+.forecast-more-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(133, 14, 0, 0.90);
+  border: 2px solid #b1974f;
+  color: #fff;
+  font-size: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.20);
+  transition: background 0.2s, transform 0.2s;
+  flex-shrink: 0;
+}
+.forecast-more-link:hover .forecast-more-btn {
+  background: rgba(133, 14, 0, 1);
+  transform: scale(1.1);
+  text-decoration: none;
+}
+
+/* Grid Wrapper */
+.rashi-forecast-wrap {
+  width: 100%;
+  float: left;
+  padding: 0;
+  /* margin-bottom: 15px; */
+  /* border: 2px solid #850E00; */
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+}
+
+/* Grid Container - 3 columns */
+.rashi-forecast-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 0;
+  /* padding: 12px; */
+  background: #fff;
+}
+
+/* Individual Item */
+.rashi-forecast-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  /* border: 1px solid #f0f0f0; */
+  box-sizing: border-box;
+}
+
+.rashi-forecast-item:nth-child(3n) {
+  border-right: none;
+}
+
+.rashi-forecast-item:nth-child(n + 10) {
+  border-bottom: none;
+}
+
+/* Card Link */
+.rashi-forecast-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  gap: 8px;
+}
+
+.rashi-forecast-card:hover {
+  background: rgba(133, 14, 0, 0.05);
+}
+
+.rashi-forecast-card:active {
+  background: rgba(133, 14, 0, 0.1);
+}
+
+/* Icon - Circular background */
+.rashi-forecast-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #f5f1e8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.rashi-forecast-card:hover .rashi-forecast-icon {
+  transform: scale(1.1);
+}
+
+.rashi-forecast-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 4px;
+}
+
+/* Rashi Name */
+.rashi-forecast-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #850E00;
+  margin: 0;
+  text-align: center;
+  font-family: 'Hind Vadodara', sans-serif;
+  line-height: 1.2;
+}
+
+/* Rashi Word (Letters) */
+.rashi-forecast-word {
+  font-size: 11px;
+  color: #666;
+  margin: 0;
+  text-align: center;
+  font-family: 'Hind Vadodara', sans-serif;
+  line-height: 1.3;
+}
+
+/* ── Responsive Design ────────────────────── */
+
+@media (max-width: 1200px) {
+  .rashi-forecast-grid {
+    grid-template-columns: repeat(12, 1fr);
+    gap: 0;
+  }
+
+  .rashi-forecast-item {
+    min-height: 110px;
+  }
+
+  .rashi-forecast-icon {
+    width: 55px;
+    height: 55px;
+  }
+
+  .rashi-forecast-name {
+    font-size: 13px;
+  }
+
+  .rashi-forecast-word {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 992px) {
+  .rashi-forecast-grid {
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  .rashi-forecast-item {
+    min-height: 100px;
+  }
+
+  .rashi-forecast-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .rashi-forecast-name {
+    font-size: 12px;
+  }
+
+  .rashi-forecast-word {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 768px) {
+  .rashi-forecast-wrap {
+    margin-bottom: 10px;
+  }
+
+  .forecastSectionNav {
+    margin-bottom: 12px;
+  }
+
+  .forecastSectionNav-left a {
+    font-size: 16px;
+  }
+
+  .rashi-forecast-grid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0;
+    /* padding: 10px; */
+  }
+
+  .rashi-forecast-item {
+    min-height: 95px;
+    /* border: 1px solid #f0f0f0; */
+  }
+
+  .rashi-forecast-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .rashi-forecast-name {
+    font-size: 11px;
+  }
+
+  .rashi-forecast-word {
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 640px) {
+  .forecastSectionNav-left a {
+    font-size: 15px;
+  }
+
+  .rashi-forecast-grid {
+    grid-template-columns: repeat(6, 1fr);
+    /* padding: 8px; */
+  }
+
+  .rashi-forecast-item {
+    min-height: 85px;
+  }
+
+  .rashi-forecast-icon {
+    width: 45px;
+    height: 45px;
+  }
+
+  .rashi-forecast-name {
+    font-size: 10px;
+  }
+
+  .rashi-forecast-word {
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .rashi-forecast-wrap {
+    margin-bottom: 8px;
+    border-width: 1.5px;
+  }
+
+  .forecastSectionNav {
+    margin-bottom: 10px;
+  }
+
+  .forecastSectionNav-left a {
+    font-size: 14px;
+  }
+
+  .forecast-more-link {
+    font-size: 13px;
+  }
+
+  .forecast-more-btn {
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+  }
+
+  .rashi-forecast-grid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0;
+    /* padding: 6px; */
+  }
+
+  .rashi-forecast-item {
+    min-height: 80px;
+    /* border: 0.5px solid #f0f0f0; */
+  }
+
+  .rashi-forecast-card {
+    padding: 8px;
+    gap: 6px;
+  }
+
+  .rashi-forecast-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .rashi-forecast-name {
+    font-size: 9px;
+  }
+
+  .rashi-forecast-word {
+    font-size: 7px;
+  }
+}
+
+/* ── Utility ────────────────────── */
+.rashi-forecast-item:hover {
+  background: rgba(133, 14, 0, 0.02);
+}
+
+.rashi-forecast-item:active {
+  background: rgba(133, 14, 0, 0.05);
+}
+
+/* Smooth transitions */
+.rashi-forecast-icon,
+.rashi-forecast-card {
+  transition: all 0.25s ease;
+  -webkit-transition: all 0.25s ease;
+}
+
+/* Print styles */
+@media print {
+  .rashi-forecast-wrap {
+    page-break-inside: avoid;
+  }
+}

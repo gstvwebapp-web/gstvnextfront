@@ -1,0 +1,226 @@
+/* ═══════════════════════════════════════════════════════════════
+   Election Module  —  all elections in one horizontal row
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Section wrapper ─────────────────────────────────────────── */
+.em-section {
+  width: 100%;
+  float: left;
+  margin: 0 0 10px 0;
+  /* padding: 0 15px; */
+}
+
+/* Outer box */
+.em-outer-wrap {
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+  background: #fff;
+  padding: 10px 12px 12px;
+}
+
+/* ── Heading ─────────────────────────────────────────────────── */
+.em-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.em-dot {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #850E00;
+  flex-shrink: 0;
+}
+
+.em-heading-text {
+  font-size: 15px;
+  font-weight: 700;
+  color: #222;
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* ── Elections row — all cards side by side ──────────────────── */
+.em-elections-row {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  /* Allow horizontal scroll only if cards overflow the container */
+  overflow-x: auto;
+  overflow-y: visible;
+  padding-bottom: 4px;
+}
+
+/* Thin scrollbar for the row */
+.em-elections-row::-webkit-scrollbar { height: 4px; }
+.em-elections-row::-webkit-scrollbar-track { background: #f5f5f5; }
+.em-elections-row::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+.em-elections-row::-webkit-scrollbar-thumb:hover { background: #850E00; }
+
+/* Each card wrapper — equal width, min so they don't collapse */
+.em-card-wrap {
+  /* flex: 1 1 0;
+  min-width: 160px;
+  max-width: 280px; */
+}
+
+/* ── Card ────────────────────────────────────────────────────── */
+.em-card {
+  border: 1px solid #e2e2e2;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Card header — left red accent */
+.em-card-header {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 3px;
+  padding: 6px 8px 5px 10px;
+  background: #fafafa;
+  border-bottom: 1px solid #e8e8e8;
+  border-left: 3px solid #850E00;
+}
+
+.em-card-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #222;
+  line-height: 1.3;
+  width: 100%;
+}
+
+.em-total-seats {
+  font-size: 12px;
+  font-weight: bold;
+  color: #666;
+  white-space: nowrap;
+  width: 100%;
+}
+
+/* ── Table ───────────────────────────────────────────────────── */
+.em-table-wrap {
+  /* Vertical scroll when many parties */
+  overflow-y: auto;
+  overflow-x: hidden;   /* NO horizontal scroll on individual table */
+  max-height: 220px;
+  flex: 1;
+}
+
+/* Thin vertical scrollbar */
+.em-table-wrap::-webkit-scrollbar { width: 3px; }
+.em-table-wrap::-webkit-scrollbar-track { background: #f5f5f5; }
+.em-table-wrap::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+.em-table-wrap::-webkit-scrollbar-thumb:hover { background: #850E00; }
+
+.em-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;   /* fixed layout — no x-overflow */
+}
+
+/* Column headers */
+.em-th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #f5f5f5;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  text-align: center;
+  padding: 5px 6px;
+  border-bottom: 1px solid #e0e0e0;
+  border-right: 1px solid #ebebeb;
+  color: #555;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.em-th:last-child { border-right: none; }
+
+.em-th-party {
+  text-align: left;
+  color: #333;
+  width: 45%;
+}
+
+/* Party rows */
+.em-party-row {
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.em-party-row:last-child { border-bottom: none; }
+.em-party-row:hover { background: #fafafa; }
+
+.em-td {
+  text-align: center;
+  padding: 5px 6px;
+  border-right: 1px solid #f5f5f5;
+  font-size: 14px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.em-td:last-child { border-right: none; }
+
+/* Party name — left aligned, coloured by color_code */
+.em-td-party {
+  text-align: left;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Value cells — coloured by color_code */
+.em-td-val {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 991px) {
+  .em-card-wrap {
+    /* min-width: 140px; */
+  }
+}
+
+@media (max-width: 575px) {
+  .em-section { padding: 0 6px; margin-top: 20px; }
+  .em-heading-text { font-size: 13px; }
+  .em-td-val { font-size: 13px; }
+
+  /* Mobile: 2 cards per row, wrap into grid */
+  .em-elections-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow-x: visible;
+  }
+
+  .em-card-wrap {
+    min-width: unset;
+    max-width: unset;
+  }
+}
+@media (min-width: 1531px) {
+  .em-section{
+    float: left; width: 100%; margin-top: 20px !important;
+  }
+}

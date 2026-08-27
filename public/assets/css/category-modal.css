@@ -1,0 +1,226 @@
+/**
+ * Category Selection Modal Styles
+ */
+
+/* Modal Header Styles */
+#myCategoryModal .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  border-bottom: 1px solid #e9ecef;
+  background: #f8f9fa;
+}
+
+#myCategoryModal .colTitle h4 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  font-family: 'Noto Sans Gujarati', sans-serif;
+}
+
+#myCategoryModal .colSearch {
+  flex: 1;
+  max-width: 300px;
+  margin-left: 20px;
+}
+
+#myCategoryModal .citySearchBox {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+#myCategoryModal .citySearchBox input {
+  width: 100%;
+  padding: 10px 40px 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+#myCategoryModal .citySearchBox input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+#myCategoryModal .btnSearch {
+  position: absolute;
+  right: 5px;
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+#myCategoryModal .btnSearch:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Modal Body Styles */
+#myCategoryModal .modal-body {
+  padding: 20px 25px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+#myCategoryModal .categorydataList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+#myCategoryModal .categoryBtn {
+  background: #fff;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  padding: 15px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+#myCategoryModal .categoryBtn:hover {
+  border-color: #007bff;
+  background-color: #f8f9fa;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#myCategoryModal .categoryBtn label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin: 0;
+  width: 100%;
+}
+
+#myCategoryModal .categoryBtn input[type="checkbox"] {
+  margin-right: 10px;
+  width: 18px;
+  height: 18px;
+  accent-color: #007bff;
+}
+
+#myCategoryModal .categoryBtn span {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  font-family: 'Noto Sans Gujarati', sans-serif;
+  line-height: 1.4;
+}
+
+#myCategoryModal .categoryBtn input[type="checkbox"]:checked + span {
+  color: #007bff;
+  font-weight: 600;
+}
+
+#myCategoryModal .categoryBtn:has(input[type="checkbox"]:checked) {
+  border-color: #007bff;
+  background-color: rgba(0, 123, 255, 0.1);
+}
+
+/* No Results Message */
+#myCategoryModal .no-resultscat {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+  font-size: 16px;
+  font-family: 'Noto Sans Gujarati', sans-serif;
+}
+
+#myCategoryModal .no-categories {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+  font-size: 16px;
+  font-family: 'Noto Sans Gujarati', sans-serif;
+}
+
+#myCategoryModal .error-message {
+  text-align: center;
+  padding: 40px 20px;
+  color: #dc3545;
+  font-size: 16px;
+  font-family: 'Noto Sans Gujarati', sans-serif;
+}
+
+/* Modal Footer Styles */
+#myCategoryModal .modal-footer {
+  padding: 20px 25px;
+  border-top: 1px solid #e9ecef;
+  background: #f8f9fa;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#myCategoryModal .btnSubmitCity {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Noto Sans Gujarati', sans-serif;
+}
+
+#myCategoryModal .btnSubmitCity:hover {
+  background: #0056b3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+#myCategoryModal .btnSubmitCity:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #myCategoryModal .modal-dialog {
+    margin: 10px;
+    max-width: none;
+  }
+  
+  #myCategoryModal .modal-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+  
+  #myCategoryModal .colSearch {
+    margin-left: 0;
+    max-width: none;
+  }
+  
+  #myCategoryModal .categorydataList {
+    grid-template-columns: 1fr;
+  }
+  
+  #myCategoryModal .categoryBtn {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  #myCategoryModal .modal-header,
+  #myCategoryModal .modal-body,
+  #myCategoryModal .modal-footer {
+    padding: 15px 20px;
+  }
+  
+  #myCategoryModal .colTitle h4 {
+    font-size: 16px;
+  }
+  
+  #myCategoryModal .btnSubmitCity {
+    padding: 10px 25px;
+    font-size: 14px;
+  }
+}

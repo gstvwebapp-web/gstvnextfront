@@ -1,0 +1,231 @@
+/* Athaitap Module Styles - Exact match to staging.gstv.in */
+
+/* Main container styling */
+.athaitap-main-container {
+  margin-bottom: 20px;
+}
+
+/* Individual entry styling - matches staging exactly */
+.athaitap-entry-item {
+  margin-bottom: 20px;
+  padding: 0;
+}
+
+.athaitap-entry-content {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+/* Name styling - exactly like staging */
+.athaitap-name-primary {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+  line-height: 1.2;
+}
+
+.athaitap-name-secondary {
+  font-size: 16px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+/* Info text styling */
+.athaitap-info-text {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+/* Media container */
+.athaitap-media-container {
+  margin: 15px 0;
+  text-align: center;
+}
+
+.athaitap-media-wrapper {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+}
+
+/* Video and image styling */
+.athaitap-media-video,
+.athaitap-media-image {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+}
+
+/* Details section styling */
+.athaitap-details-section {
+  background: #f8f9fa;
+  padding: 10px;
+  border-radius: 4px;
+  margin: 10px 0;
+}
+
+.athaitap-detail-item {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 5px;
+  line-height: 1.3;
+}
+
+.athaitap-detail-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Date badge styling */
+.athaitap-date-container {
+  text-align: right;
+  margin-top: 15px;
+}
+
+.athaitap-date-badge {
+  background: #850e00;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+/* Header styling */
+.athaitap-page-header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px 0;
+}
+
+.athaitap-main-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #850e00;
+  margin-bottom: 10px;
+  font-family: 'Noto Sans Gujarati', sans-serif;
+}
+
+.athaitap-subtitle-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.athaitap-subtitle-text {
+  color: #666;
+  font-size: 16px;
+}
+
+.athaitap-user-link {
+  background: #850e00;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.athaitap-user-link:hover {
+  background: #6a0b00;
+  color: white;
+  text-decoration: none;
+}
+
+/* Load More Button */
+.athaitap-load-more-container {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.athaitap-load-more-btn {
+  background-color: #850e00;
+  color: white;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.athaitap-load-more-btn:hover {
+  background-color: #6a0b00;
+}
+
+.athaitap-load-more-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Loading States */
+.loading-spinner {
+  text-align: center;
+  padding: 20px;
+}
+
+.loading-spinner .spinner-border {
+  color: #850e00;
+}
+
+/* Error States */
+.error-message {
+  text-align: center;
+  padding: 20px;
+  color: #dc3545;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+  margin: 20px 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .athaitap-main-title {
+    font-size: 24px;
+  }
+  
+  .athaitap-subtitle-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .athaitap-name-primary {
+    font-size: 16px;
+  }
+  
+  .athaitap-name-secondary {
+    font-size: 14px;
+  }
+  
+  .athaitap-info-text {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 576px) {
+  .athaitap-main-title {
+    font-size: 20px;
+  }
+  
+  .athaitap-entry-item {
+    margin-bottom: 15px;
+  }
+  
+  .athaitap-media-video,
+  .athaitap-media-image {
+    max-height: 200px;
+  }
+}

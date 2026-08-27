@@ -1,0 +1,129 @@
+/* Google Translate Styling */
+.google-translate-wrapper {
+  display: inline-flex !important;
+  align-items: center;
+  margin: 0 10px;
+}
+
+/* Hide Google Translate branding */
+.goog-te-banner-frame,
+.goog-te-balloon-frame {
+  display: none !important;
+}
+
+body {
+  top: 0 !important;
+}
+
+/* Style the translate dropdown */
+#google_translate_element select {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+#google_translate_element select:hover {
+  border-color: #850E00;
+}
+
+#google_translate_element select:focus {
+  border-color: #850E00;
+  box-shadow: 0 0 5px rgba(133, 14, 0, 0.3);
+}
+
+/* Hide the "Powered by" text */
+.goog-te-gadget {
+  font-size: 0 !important;
+  color: transparent !important;
+}
+
+.goog-te-gadget > span {
+  display: none !important;
+}
+
+.goog-te-gadget > div {
+  display: inline-block !important;
+}
+
+/* Style for mobile view */
+@media (max-width: 768px) {
+  .google-translate-wrapper {
+    margin: 0 5px;
+  }
+
+  #google_translate_element select {
+    padding: 4px 8px;
+    font-size: 12px;
+    max-width: 80px;
+  }
+
+  /* Show only icon in mobile */
+  .google-translate-wrapper::before {
+    content: '🌐';
+    font-size: 20px;
+    margin-right: 5px;
+  }
+}
+
+/* Desktop view */
+@media (min-width: 769px) {
+  .google-translate-wrapper {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .google-translate-wrapper::before {
+    content: '🌐';
+    font-size: 18px;
+  }
+}
+
+/* Remove Google Translate top bar */
+.skiptranslate {
+  display: inline-block !important;
+}
+
+.goog-te-banner-frame.skiptranslate {
+  display: none !important;
+}
+
+body {
+  top: 0px !important;
+}
+
+/* Custom styling for the translate element */
+.goog-te-combo {
+  background-color: #fff !important;
+  border: 1px solid #ddd !important;
+  border-radius: 4px !important;
+  padding: 5px 10px !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+  outline: none !important;
+  color: #333 !important;
+  font-family: 'Hind Vadodara', sans-serif !important;
+}
+
+.goog-te-combo:hover {
+  border-color: #850E00 !important;
+}
+
+.goog-te-combo:focus {
+  border-color: #850E00 !important;
+  box-shadow: 0 0 5px rgba(133, 14, 0, 0.3) !important;
+}
+
+/* Mobile specific styles */
+@media (max-width: 768px) {
+  .goog-te-combo {
+    padding: 4px 6px !important;
+    font-size: 12px !important;
+    max-width: 70px !important;
+  }
+}

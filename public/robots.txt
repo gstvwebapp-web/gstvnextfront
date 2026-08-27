@@ -1,0 +1,86 @@
+# Robots.txt for GSTV - Gujarat Samachar News Portal
+# Last updated: 2026-07-30
+
+# Default rules for all crawlers
+User-agent: *
+Allow: /
+
+# Disallow private and admin routes
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /auth/
+Disallow: /*.zip
+Disallow: /*?*sort=
+Disallow: /*?*filter=
+
+# Allow crawlers to access Next.js static assets
+Allow: /_next/
+Allow: /public/
+Allow: /assets/
+
+# Sitemap directive
+Sitemap: https://www.gstv.in/sitemap.xml
+Sitemap: https://www.gstv.in/sitemap-news-1.xml
+Sitemap: https://www.gstv.in/sitemap-category.xml
+Sitemap: https://www.gstv.in/sitemap-webstory.xml
+Sitemap: https://www.gstv.in/sitemap-news-google.xml
+Sitemap: https://www.gstv.in/sitemap-videos.xml
+
+# Crawl-delay for general crawlers (in seconds)
+Crawl-delay: 1
+
+# Google specific rules
+User-agent: Googlebot
+Allow: /
+
+# Bing specific rules
+User-agent: Bingbot
+Allow: /
+
+# AI Crawler Rules (as per editorial policy)
+
+# Allow GPTBot
+User-agent: GPTBot
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /api/
+
+# Allow ClaudeBot
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /api/
+
+# Allow ChatGPT
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /api/
+
+# Allow Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /api/
+
+Disallow: /search
+Disallow: /search/
+Disallow: /*?q=
+
+# Disallow bad crawlers and scrapers
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
